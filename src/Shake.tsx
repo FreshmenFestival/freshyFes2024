@@ -25,12 +25,25 @@ const ShakeComponent = () => {
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
 
+  let lastAcceleration = 9.81;
+  let acceleration = 0;
+
   const handleMotion = (event: DeviceMotionEvent) => {
-    const acceleration = event.accelerationIncludingGravity;
-    if (acceleration && acceleration.x !== null && acceleration.y !== null && acceleration.z !== null) {
-      const totalAcceleration = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
-      console.log(`Acceleration: x=${acceleration.x}, y=${acceleration.y}, z=${acceleration.z}, total=${totalAcceleration}`);
-      if (totalAcceleration >25) { //แก้ math ตรงนี้ด้วยนะจ๊ะ
+    const acc = event.accelerationIncludingGravity;
+    if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
+      const x = acc.x;
+      const y = acc.y;
+      const z = acc.z;
+
+      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+      const delta = currentAcceleration - lastAcceleration;
+      lastAcceleration = currentAcceleration;
+      
+      acceleration = 0.9 * acceleration + delta;
+
+      console.log(`Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`);
+
+      if (acceleration > 12) { // Use the smoothed acceleration value
         if (!isShaking) {
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
