@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import dashboard from "./Dashboard"
 
 const getMobileOperatingSystem = () => {
   var userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
@@ -39,18 +40,17 @@ const ShakeComponent = () => {
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
       
-      acceleration = 0.9 * acceleration + delta;
+      acceleration = 0.4 * acceleration + delta;
 
       console.log(`Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`);
 
-      if (acceleration > 12) { // Use the smoothed acceleration value
+      if (acceleration > 22) { // Use the smoothed acceleration value
         if (!isShaking) {
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
         }
-      } else {
-        setIsShaking(false);
-      }
+      } 
+
     }
   };
 
@@ -72,9 +72,11 @@ const ShakeComponent = () => {
       } else {
         alert("DeviceMotionEvent.requestPermission is not supported on this device.");
       }
-    } else {
+    } else if(mobile === "Android") {
       window.addEventListener("devicemotion", handleMotion as EventListener);
       setPermissionRequested(true);
+    } else {
+      
     }
   };
 
@@ -84,6 +86,8 @@ const ShakeComponent = () => {
       {!permissionRequested && (
         <button onClick={handleRequestMotion}>start</button>
       )}
+
+      
     </div>
   );
 };
