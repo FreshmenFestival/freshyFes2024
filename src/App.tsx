@@ -7,7 +7,7 @@ const ShakeGame: FC = () => {
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Shake Game</h1>
       <ShakeComponent/>
-      <h3>25 V.4.1</h3>
+      <h3>25 V.4.3</h3>
     </div>
   );
 };
