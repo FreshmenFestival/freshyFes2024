@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <div>
           <h1>Shake Game</h1>
           <ShakeComponent/>
-          <h3>25 V.4.3</h3>
+          <h3>25 V.5.2</h3>
         </div>
       ) : (
         <Login onLogin={handleLogin} />

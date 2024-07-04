@@ -10,7 +10,7 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
 
   const handleLogin = async () => {
     try {
-      const q = query(collection(db, "users"), where("studentId", "==", studentId));
+      const q = query(collection(db, "users"), where("uid", "==", studentId));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
@@ -28,7 +28,6 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
     }
   };
 
-
   return (
     <div>
       <h3>Log-in</h3>
@@ -38,8 +37,8 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
         <p>ชื่อ-สกุล</p>
         <input type="text" placeholder="นายสมใจ ที่หนึ่ง" value={name} onChange={(e) => setName(e.target.value)} />
         <p>ภาควิชา</p>
-        <input type="text" placeholder="ภาควิชา" value={department} onChange={(e) => setDepartment(e.target.value)} />
-        <button onClick={handleLogin}>Login</button>
+        <input type="text" placeholder="ชีววิทยา" value={department} onChange={(e) => setDepartment(e.target.value)} />
+        <button onClick={handleLogin}>Submit</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
     </div>
