@@ -41,11 +41,11 @@ const ShakeComponent = () => {
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
       
-      acceleration = 0.4 * acceleration + delta;
+      acceleration = 0.45 * acceleration + delta;
 
       console.log(`Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`);
 
-      if (acceleration > 22) { // Use the smoothed acceleration value
+      if (acceleration > 20) { // Use the smoothed acceleration value
         if (!isShaking) {
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
@@ -68,7 +68,7 @@ const ShakeComponent = () => {
             alert("Permission not granted");
           }
         } catch (error) {
-          console.error("Error requesting DeviceMotion permission:", error);
+          alert("Error requesting DeviceMotion permission:"+error);
         }
       } else {
         alert("DeviceMotionEvent.requestPermission is not supported on this device.");
