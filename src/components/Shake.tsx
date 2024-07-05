@@ -23,9 +23,9 @@ const ShakeComponent = () => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
+  const [acceleration, setAcceleration] = useState(0); // State for real-time acceleration
 
   let lastAcceleration = 9.81;
-  let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
     const acc = event.accelerationIncludingGravity;
@@ -38,13 +38,14 @@ const ShakeComponent = () => {
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
 
-      acceleration = 0.45 * acceleration + delta;
+      const smoothedAcceleration = 0.45 * acceleration + delta;
+      setAcceleration(smoothedAcceleration); // Update acceleration state
 
       console.log(
-        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
+        `Acceleration: x=${x}, y=${y}, z=${z}, total=${smoothedAcceleration}`
       );
 
-      if (acceleration > 15 && !isShaking) {
+      if (smoothedAcceleration > 15 && !isShaking) {
         // Adjust the threshold as needed
         setCount((prevCount) => prevCount + 1);
         setIsShaking(true);
@@ -86,11 +87,12 @@ const ShakeComponent = () => {
   return (
     <div>
       <p>Shake count: {count}</p>
-      <p>Acc : {acceleration}</p>
+      <p>Acceleration: {acceleration.toFixed(2)}</p>
       {!permissionRequested && (
-        <button onClick={handleRequestMotion}>start</button>
+        <button onClick={handleRequestMotion}>Start</button>
       )}
     </div>
   );
 };
+
 export default ShakeComponent;
