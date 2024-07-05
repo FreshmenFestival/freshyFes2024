@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const getMobileOperatingSystem = () => {
   const userAgent =
@@ -24,42 +24,47 @@ const ShakeComponent = () => {
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
 
-  let lastAcceleration = 9.81;
-  let acceleration = 0;
+  const lastAccelerationRef = useRef(9.81); // Using useRef to store lastAcceleration
 
-  const handleMotion = (event: DeviceMotionEvent) => {
-    const acc = event.accelerationIncludingGravity;
-    if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
-      const x = acc.x;
-      const y = acc.y;
-      const z = acc.z;
+  const accelerationRef = useRef(0); // Using useRef to store acceleration
 
-      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
-      const delta = currentAcceleration - lastAcceleration;
-      lastAcceleration = currentAcceleration;
+  const handleMotion = useCallback(
+    (event: DeviceMotionEvent) => {
+      const acc = event.accelerationIncludingGravity;
+      if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
+        const x = acc.x;
+        const y = acc.y;
+        const z = acc.z;
 
-      acceleration = 0.45 * acceleration + delta;
+        const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+        const delta = currentAcceleration - lastAccelerationRef.current;
+        lastAccelerationRef.current = currentAcceleration;
 
-      console.log(
-        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
-      );
+        accelerationRef.current = 0.45 * accelerationRef.current + delta;
 
-      if (acceleration > 15 && !isShaking) {
-        // Adjust the threshold as needed
-        setCount((prevCount) => prevCount + 1);
-        setIsShaking(true);
+        console.log(
+          `Acceleration: x=${x}, y=${y}, z=${z}, total=${accelerationRef.current}`
+        );
+
+        if (accelerationRef.current > 15 && !isShaking) {
+          setCount((prevCount) => prevCount + 1);
+          setIsShaking(true);
+        }
       }
-    }
-  };
+    },
+    [isShaking]
+  ); // Dependency added to useCallback
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
+
     if (mobile === "iOS") {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         try {
           const permissionStatus = await (
             DeviceMotionEvent as any
           ).requestPermission();
+
           if (permissionStatus === "granted") {
             window.addEventListener(
               "devicemotion",
@@ -70,7 +75,7 @@ const ShakeComponent = () => {
             alert("Permission not granted");
           }
         } catch (error) {
-          alert("Error requesting DeviceMotion permission:" + error);
+          alert("Error requesting DeviceMotion permission: " + error);
         }
       } else {
         alert(
@@ -80,16 +85,26 @@ const ShakeComponent = () => {
     } else if (mobile === "Android") {
       window.addEventListener("devicemotion", handleMotion as EventListener);
       setPermissionRequested(true);
+    } else {
+      alert("Motion detection is not supported on this device.");
     }
   };
+
+  useEffect(() => {
+    // Clean up event listener
+    return () => {
+      window.removeEventListener("devicemotion", handleMotion as EventListener);
+    };
+  }, [handleMotion]); // Dependency added to useEffect
 
   return (
     <div>
       <p>Shake count: {count}</p>
       {!permissionRequested && (
-        <button onClick={handleRequestMotion}>start</button>
+        <button onClick={handleRequestMotion}>Start</button>
       )}
     </div>
   );
 };
+
 export default ShakeComponent;
