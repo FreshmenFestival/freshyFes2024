@@ -1,32 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-
-const getMobileOperatingSystem = () => {
-  const userAgent =
-    navigator.userAgent || navigator.vendor || (window as any).opera;
-
-  if (/windows phone/i.test(userAgent)) {
-    return "Windows Phone";
-  }
-
-  if (/android/i.test(userAgent)) {
-    return "Android";
-  }
-
-  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-    return "iOS";
-  }
-
-  return "unknown";
-};
+import { useState, useEffect, useCallback } from "react";
 
 const ShakeComponent = () => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
-
-  const lastAccelerationRef = useRef(9.81); // Using useRef to store lastAcceleration
-
-  const accelerationRef = useRef(0); // Using useRef to store acceleration
 
   const handleMotion = useCallback(
     (event: DeviceMotionEvent) => {
@@ -37,65 +14,55 @@ const ShakeComponent = () => {
         const z = acc.z;
 
         const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
-        const delta = currentAcceleration - lastAccelerationRef.current;
-        lastAccelerationRef.current = currentAcceleration;
-
-        accelerationRef.current = 0.45 * accelerationRef.current + delta;
+        const delta = currentAcceleration - 9.81; // Adjust according to your needs
 
         console.log(
-          `Acceleration: x=${x}, y=${y}, z=${z}, total=${accelerationRef.current}`
+          `Acceleration: x=${x}, y=${y}, z=${z}, total=${currentAcceleration}`
         );
 
-        if (accelerationRef.current > 15 && !isShaking) {
+        if (delta > 1 && !isShaking) {
+          // Adjust threshold and conditions as needed
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
+
+          // Reset shaking state after 2 seconds
+          setTimeout(() => {
+            setIsShaking(false);
+          }, 2000);
         }
       }
     },
     [isShaking]
-  ); // Dependency added to useCallback
+  );
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
-
-    if (mobile === "iOS") {
-      if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
-        try {
-          const permissionStatus = await (
-            DeviceMotionEvent as any
-          ).requestPermission();
-
-          if (permissionStatus === "granted") {
-            window.addEventListener(
-              "devicemotion",
-              handleMotion as EventListener
-            );
-            setPermissionRequested(true);
-          } else {
-            alert("Permission not granted");
-          }
-        } catch (error) {
-          alert("Error requesting DeviceMotion permission: " + error);
+  
+    if (mobile === "iOS" && typeof DeviceMotionEvent.requestPermission === "function") {
+      try {
+        const permissionStatus = await DeviceMotionEvent.requestPermission();
+        if (permissionStatus === "granted") {
+          window.addEventListener("devicemotion", handleMotion);
+          setPermissionRequested(true);
+        } else {
+          alert("Permission not granted");
         }
-      } else {
-        alert(
-          "DeviceMotionEvent.requestPermission is not supported on this device."
-        );
+      } catch (error) {
+        alert("Error requesting DeviceMotion permission: " + error);
       }
     } else if (mobile === "Android") {
-      window.addEventListener("devicemotion", handleMotion as EventListener);
+      window.addEventListener("devicemotion", handleMotion);
       setPermissionRequested(true);
     } else {
       alert("Motion detection is not supported on this device.");
     }
   };
-
+  
   useEffect(() => {
-    // Clean up event listener
     return () => {
-      window.removeEventListener("devicemotion", handleMotion as EventListener);
+      window.removeEventListener("devicemotion", handleMotion);
     };
-  }, [handleMotion]); // Dependency added to useEffect
+  }, [handleMotion]);
 
   return (
     <div>
