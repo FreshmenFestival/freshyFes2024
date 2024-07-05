@@ -86,6 +86,7 @@ const ShakeComponent = () => {
   return (
     <div>
       <p>Shake count: {count}</p>
+      <p>Acc : {acceleration}</p>
       {!permissionRequested && (
         <button onClick={handleRequestMotion}>start</button>
       )}
