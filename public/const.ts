@@ -1,0 +1,20 @@
+enum Department {
+    SMO,
+    MATHCOM,
+    MARINE,
+    CHEM,
+    CHEMTECH,
+    BIO,
+    BIOCHEM,
+    BSAC,
+    BBTECH,
+    FOODTECH,
+    MATSCI,
+    PHYSICS,
+    BOTGEN,
+    MICROBIO,
+    PHOTO,
+    GEO,
+    ENVI,
+    NISIT_OFFICER
+}
