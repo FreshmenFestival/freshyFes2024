@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const getMobileOperatingSystem = (): string => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+const getMobileOperatingSystem = () => {
+  const userAgent =
+    navigator.userAgent || navigator.vendor || (window as any).opera;
 
   if (/windows phone/i.test(userAgent)) {
     return "Windows Phone";
@@ -11,20 +12,27 @@ const getMobileOperatingSystem = (): string => {
     return "Android";
   }
 
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
     return "iOS";
   }
 
   return "unknown";
 };
 
-const ShakeComponent: React.FC = () => {
+const ShakeComponent = () => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
 
   let lastAcceleration = 9.81;
   let acceleration = 0;
+
+  useEffect(() => {
+    if (isShaking) {
+      const timer = setTimeout(() => setIsShaking(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isShaking]);
 
   const handleMotion = (event: DeviceMotionEvent) => {
     const acc = event.accelerationIncludingGravity;
@@ -43,13 +51,10 @@ const ShakeComponent: React.FC = () => {
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
       );
 
-      if (acceleration > 20) {
-        if (!isShaking) {
-          setCount((prevCount) => prevCount + 1);
-          setIsShaking(true);
-        }
-      } else {
-        setIsShaking(false);
+      if (acceleration > 15 && !isShaking) {
+        // Adjust the threshold as needed
+        setCount((prevCount) => prevCount + 1);
+        setIsShaking(true);
       }
     }
   };
@@ -82,8 +87,6 @@ const ShakeComponent: React.FC = () => {
     } else if (mobile === "Android") {
       window.addEventListener("devicemotion", handleMotion as EventListener);
       setPermissionRequested(true);
-    } else {
-      alert("Device motion detection is not supported on this device.");
     }
   };
 
@@ -91,7 +94,7 @@ const ShakeComponent: React.FC = () => {
     <div>
       <p>Shake count: {count}</p>
       {!permissionRequested && (
-        <button onClick={handleRequestMotion}>Start</button>
+        <button onClick={handleRequestMotion}>start</button>
       )}
     </div>
   );
