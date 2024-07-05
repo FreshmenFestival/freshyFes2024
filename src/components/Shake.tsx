@@ -99,5 +99,4 @@ const ShakeComponent = () => {
     </div>
   );
 };
-
 export default ShakeComponent;
