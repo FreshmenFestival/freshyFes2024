@@ -1,11 +1,8 @@
+import { useState } from "react";
 
-import { useState } from 'react';
-// import dashboard from "./Dashboard"
+const getMobileOperatingSystem = (): string => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-const getMobileOperatingSystem = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-
-  // Windows Phone must come first because its UA also contains "Android"
   if (/windows phone/i.test(userAgent)) {
     return "Windows Phone";
   }
@@ -14,15 +11,14 @@ const getMobileOperatingSystem = () => {
     return "Android";
   }
 
-  // iOS detection from: http://stackoverflow.com/a/9039885/177710
-  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return "iOS";
   }
 
   return "unknown";
 };
 
-const ShakeComponent = () => {
+const ShakeComponent: React.FC = () => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
@@ -40,18 +36,21 @@ const ShakeComponent = () => {
       const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
-      
+
       acceleration = 0.45 * acceleration + delta;
 
-      console.log(`Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`);
+      console.log(
+        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
+      );
 
-      if (acceleration > 20) { // Use the smoothed acceleration value
+      if (acceleration > 20) {
         if (!isShaking) {
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
         }
-      } 
-
+      } else {
+        setIsShaking(false);
+      }
     }
   };
 
@@ -60,24 +59,31 @@ const ShakeComponent = () => {
     if (mobile === "iOS") {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         try {
-          const permissionStatus = await (DeviceMotionEvent as any).requestPermission();
+          const permissionStatus = await (
+            DeviceMotionEvent as any
+          ).requestPermission();
           if (permissionStatus === "granted") {
-            window.addEventListener("devicemotion", handleMotion as EventListener);
+            window.addEventListener(
+              "devicemotion",
+              handleMotion as EventListener
+            );
             setPermissionRequested(true);
           } else {
             alert("Permission not granted");
           }
         } catch (error) {
-          alert("Error requesting DeviceMotion permission:"+error);
+          alert("Error requesting DeviceMotion permission:" + error);
         }
       } else {
-        alert("DeviceMotionEvent.requestPermission is not supported on this device.");
+        alert(
+          "DeviceMotionEvent.requestPermission is not supported on this device."
+        );
       }
-    } else if(mobile === "Android") {
+    } else if (mobile === "Android") {
       window.addEventListener("devicemotion", handleMotion as EventListener);
       setPermissionRequested(true);
     } else {
-      
+      alert("Device motion detection is not supported on this device.");
     }
   };
 
@@ -85,7 +91,7 @@ const ShakeComponent = () => {
     <div>
       <p>Shake count: {count}</p>
       {!permissionRequested && (
-        <button onClick={handleRequestMotion}>start</button>
+        <button onClick={handleRequestMotion}>Start</button>
       )}
     </div>
   );
