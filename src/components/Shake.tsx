@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const getMobileOperatingSystem = () => {
   const userAgent =
@@ -26,13 +26,6 @@ const ShakeComponent = () => {
 
   let lastAcceleration = 9.81;
   let acceleration = 0;
-
-  useEffect(() => {
-    if (isShaking) {
-      const timer = setTimeout(() => setIsShaking(false), 500);
-      return () => clearTimeout(timer);
-    }
-  }, [isShaking]);
 
   const handleMotion = (event: DeviceMotionEvent) => {
     const acc = event.accelerationIncludingGravity;
