@@ -10,9 +10,8 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
 
   const handleLogin = async () => {
     try {
-      const q = query(collection(db, "users"), where("uid", "==", studentId));
+      const q = query(collection(db, "demoStudent"), where("uid", "==", studentId));
       const querySnapshot = await getDocs(q);
-
       if (!querySnapshot.empty) {
         console.log(studentId);
         onLogin();
@@ -28,9 +27,11 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
     }
   };
 
+
   return (
     <div>
       <h3>Log-in</h3>
+
       <div>
         <p>รหัสนิสิต</p>
         <input type="text" placeholder="67xxxxxx23" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
