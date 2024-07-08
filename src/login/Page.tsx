@@ -81,7 +81,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <h3 className="text-center text-2xl font-semibold mb-6">เข้าสู่ระบบ</h3>
 
-        <div className="mb-4">
+        <div className="flex flex-col mb-4">
           <label className="block text-sm mb-2">รหัสนิสิต</label>
           <input
             type="text"
@@ -94,7 +94,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
 
-        <div className="mb-4">
+        <div className="flex flex-col mb-4">
           <label className="block text-sm mb-2">ชื่อ-สกุล</label>
           <input
             type="text"
@@ -105,7 +105,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="flex flex-col mb-6">
           <label className="block text-sm mb-2">ภาควิชา</label>
           <select
             value={department}
