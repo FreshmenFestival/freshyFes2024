@@ -52,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         console.log(studentId);
         onLogin();
       } else {
-        setError("Invalid credentials");
+        setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -77,42 +77,59 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div>
-      <h3>Log-in</h3>
+    <div className="flex justify-center items-center min-h-screen bg-pink-200">
+      <div className="bg-white p-8 rounded-lg shadow-md w-80">
+        <h3 className="text-center text-2xl font-semibold mb-6">เข้าสู่ระบบ</h3>
 
-      <div>
-        <p>รหัสนิสิต</p>
-        <input
-          type="text"
-          placeholder="67xxxxxx23"
-          value={studentId}
-          onChange={handleID}
-          onBlur={handleIDBlur}
-        />
-        {errorID && <p style={{ color: "red" }}>{errorID}</p>}
-        <p>ชื่อ-สกุล</p>
-        <input
-          type="text"
-          placeholder="นายสมใจ ที่หนึ่ง"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <p>ภาควิชา</p>
-        <select
-          value={department}
-          onChange={(e) => setDepartment(e.target.value as Department)}
-        >
-          <option value="" disabled>
-            เลือกภาควิชา
-          </option>
-          {getEnumValues(Department).map((dept) => (
-            <option key={dept.key} value={dept.value}>
-              {dept.value}
+        <div className="mb-4">
+          <label className="block text-sm mb-2">รหัสนิสิต</label>
+          <input
+            type="text"
+            placeholder="67xxxxxx23"
+            value={studentId}
+            onChange={handleID}
+            onBlur={handleIDBlur}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+          />
+          {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm mb-2">ชื่อ-สกุล</label>
+          <input
+            type="text"
+            placeholder="นายสมใจ ที่หนึ่ง"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm mb-2">ภาควิชา</label>
+          <select
+            value={department}
+            onChange={(e) => setDepartment(e.target.value as Department)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+          >
+            <option value="" disabled>
+              เลือกภาควิชา
             </option>
-          ))}
-        </select>
-        <button onClick={handleLogin}>Submit</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+            {getEnumValues(Department).map((dept) => (
+              <option key={dept.key} value={dept.value}>
+                {dept.value}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          onClick={handleLogin}
+          className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition duration-300"
+        >
+          ยืนยัน
+        </button>
+        {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
       </div>
     </div>
   );
