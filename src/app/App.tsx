@@ -12,7 +12,7 @@ const App: React.FC = () => {
   return (
     <div>
       {isAuthenticated ? (
-        <div>
+        <div className="text-center">
           <h1>Shake Game</h1>
           <ShakeComponent/>
           <h3>25 V.5.2</h3>

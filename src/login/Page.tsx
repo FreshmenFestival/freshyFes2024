@@ -37,6 +37,7 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [studentId, setStudentId] = useState("");
   const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
@@ -77,8 +78,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-pink-200">
-      <div className="bg-white p-8 rounded-lg shadow-md w-80">
+    <div className="flex justify-center items-center min-h-screen bg-pink-200 ">
+      <div className="bg-white p-8 rounded-lg shadow-md w-80 font-noto-sans">
         <h3 className="text-center text-2xl font-semibold mb-6">เข้าสู่ระบบ</h3>
 
         <div className="flex flex-col mb-4">
@@ -101,6 +102,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             placeholder="นายสมใจ ที่หนึ่ง"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+          />
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm mb-2">ชื่อเล่น</label>
+          <input
+            type="text"
+            placeholder="ใจ่ใจ๊"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
           />
         </div>
