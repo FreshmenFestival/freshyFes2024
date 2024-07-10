@@ -19,7 +19,13 @@ const getMobileOperatingSystem = () => {
   return "unknown";
 };
 
-const ShakeComponent = () => {
+interface UserData {
+  name: string;
+  group: string;
+  uid: string;
+}
+
+const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
@@ -45,7 +51,6 @@ const ShakeComponent = () => {
       );
 
       if (acceleration > 15 && !isShaking) {
-        // Adjust the threshold as needed
         setCount((prevCount) => prevCount + 1);
         setIsShaking(true);
       }
@@ -86,9 +91,8 @@ const ShakeComponent = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-2">
       <div className="">
-        <img/>
-        <p>ชื่อเล่น</p>
-        <p>ชื่อกรุ๊ป</p>
+        <p>ชื่อเล่น: {userData.name}</p>
+        <p>ชื่อกรุ๊ป: {userData.group}</p>
       </div>
       <div className="relative">
         <img src="shake.png" alt="profile" className="w-32 h-32 rounded-full mx-auto border-4 border-white" />
@@ -97,14 +101,15 @@ const ShakeComponent = () => {
         <p>Shake count: {count}</p>
         {!permissionRequested && (
           <button
-          className="mt-4 px-6 py-2 bg-gray-500 text-white rounded-full focus:outline-none"
-          onClick={handleRequestMotion}
-        >
-          Start
-        </button>
+            className="mt-4 px-6 py-2 bg-gray-500 text-white rounded-full focus:outline-none"
+            onClick={handleRequestMotion}
+          >
+            Start
+          </button>
         )}
       </div>
     </div>
   );
 };
+
 export default ShakeComponent;

@@ -31,13 +31,12 @@ const getEnumValues = (enumObj: typeof Department) => {
 };
 
 interface LoginProps {
-  onLogin: () => void;
+  onLogin: (data: { uid: string; group: string; name:string; }) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [studentId, setStudentId] = useState("");
   const [name, setName] = useState("");
-  const [nickname, setNickname] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
@@ -45,13 +44,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleLogin = async () => {
     try {
       const q = query(
-        collection(db, "demoStudent"),
+        collection(db, "memberlist"),
         where("uid", "==", studentId)
       );
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
-        console.log(studentId);
-        onLogin();
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data() as { uid: string; group: string; name:string; };
+        onLogin(userData);
       } else {
         setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
@@ -96,23 +96,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
 
         <div className="flex flex-col mb-4">
-          <label className="block text-sm mb-2">ชื่อ-สกุล</label>
-          <input
-            type="text"
-            placeholder="นายสมใจ ที่หนึ่ง"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
-          />
-        </div>
-
-        <div className="flex flex-col mb-4">
           <label className="block text-sm mb-2">ชื่อเล่น</label>
           <input
             type="text"
             placeholder="ใจ่ใจ๊"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
           />
         </div>
