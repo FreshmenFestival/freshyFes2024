@@ -10,5 +10,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <App/>
   </React.StrictMode>
 );
-
+// สำหรับ desktop ไว้ใส่ตอนหลัง
 // {isMobile ? <App /> : <ComDashboard />}
