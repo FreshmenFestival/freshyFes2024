@@ -1,4 +1,6 @@
+import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
 import { useState } from "react";
+import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
   const userAgent =
@@ -59,32 +61,68 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     }
   };
 
-  const handleStop = () => {
+  const handleStop = async () => {
     window.removeEventListener("devicemotion", handleMotion as EventListener);
     setIsPlaying(false);
+
+    const q = query(
+      collection(db, "scores"),
+      where("group", "==", userData.group)
+    );
+  
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          const newScore = (doc.data().score || 0) + count;
+          updateDoc(doc.ref, { score: newScore });
+        });
+      } else {
+        await addDoc(collection(db, "scores"), {
+          group: userData.group,
+          score: count
+        });
+      }
+      alert("คะแนนถูกบันทึกแล้ว!");
+    } catch (error) {
+      console.error("Error writing document: ", error);
+    }
 
   };
 
   const group = () => {
     switch(userData.group) {
       case "1" :
-        return ("MonoRabian");
+        return (
+          <span>MonoRabian</span>
+        );
       case "2" :
-        return ("Edenity");
+        return (
+          <span>Edenity</span>
+        );
       case "3" :
-        return ("Tartarus");
+        return (
+          <span>Tartarus</span>
+        );
       case "4" :
-        return ("Avalon");
+        return (
+          <span>Avalon</span>
+        );
       case "5" :
-        return ("Lyford");
+        return (
+          <span>Lyford</span>
+        );
       case "6" :
-        return ("Atlansix");
-      case "6" :
-        return ("Staff");
+        return (
+          <span>Atlansix</span>
+        );
+      case "7" :
+        return (
+          <span>Staff</span>
+        );
     }
 
   }
-
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -121,7 +159,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     <div className="flex flex-col items-center justify-center h-screen gap-2">
       <div className="">
         <p>ชื่อเล่น: {userData.name}</p>
-        <p>ชื่อกรุ๊ป: {group.toString()}</p>
+        <p>{group()}</p>
       </div>
       <div className="relative">
         <img src="shake.png" alt="profile" className="w-32 h-32 rounded-full mx-auto border-4 border-white" />
