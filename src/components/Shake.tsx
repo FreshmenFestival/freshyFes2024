@@ -29,6 +29,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
+  const [isPLaying, setIsPlaying] = useState(false);
 
   let lastAcceleration = 9.81;
   let acceleration = 0;
@@ -53,9 +54,35 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
       if (acceleration > 15 && !isShaking) {
         setCount((prevCount) => prevCount + 1);
         setIsShaking(true);
+        setIsPlaying(true)
       }
     }
   };
+
+  const handleStop = () => {
+    window.removeEventListener("devicemotion", handleMotion as EventListener);
+    setIsPlaying(false);
+
+  };
+
+  const group = () => {
+    switch(userData.group) {
+      case "1" :
+        return ("MonoRabian");
+      case "2" :
+        return ("MonoRabian");
+      case "3" :
+        return ("MonoRabian");
+      case "4" :
+        return ("MonoRabian");
+      case "5" :
+        return ("MonoRabian");
+      case "6" :
+        return ("MonoRabian");
+    }
+
+  }
+
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -106,6 +133,14 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
           >
             Start
           </button>
+        )}
+        {isPLaying && (
+          <button
+          className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none"
+          onClick={handleStop}
+        >
+          Stop
+        </button>
         )}
       </div>
     </div>

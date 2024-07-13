@@ -38,7 +38,6 @@ const App = () => {
       {isAuthenticated && userData ? (
         <div className="text-center">
           <ShakeComponent userData={userData} />
-          <h3>25 V.5.2</h3>
         </div>
       ) : (
         <Login onLogin={handleLogin} />
