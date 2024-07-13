@@ -65,13 +65,13 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     window.removeEventListener("devicemotion", handleMotion as EventListener);
     setIsPlaying(false);
 
-    const q = query(
+    const s = query(
       collection(db, "scores"),
       where("group", "==", userData.group)
     );
   
     try {
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(s);
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const newScore = (doc.data().score || 0) + count;
