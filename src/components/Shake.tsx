@@ -70,15 +70,17 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
       case "1" :
         return ("MonoRabian");
       case "2" :
-        return ("MonoRabian");
+        return ("Edenity");
       case "3" :
-        return ("MonoRabian");
+        return ("Tartarus");
       case "4" :
-        return ("MonoRabian");
+        return ("Avalon");
       case "5" :
-        return ("MonoRabian");
+        return ("Lyford");
       case "6" :
-        return ("MonoRabian");
+        return ("Atlansix");
+      case "6" :
+        return ("Staff");
     }
 
   }
@@ -119,7 +121,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     <div className="flex flex-col items-center justify-center h-screen gap-2">
       <div className="">
         <p>ชื่อเล่น: {userData.name}</p>
-        <p>ชื่อกรุ๊ป: {userData.group}</p>
+        <p>ชื่อกรุ๊ป: {group.toString()}</p>
       </div>
       <div className="relative">
         <img src="shake.png" alt="profile" className="w-32 h-32 rounded-full mx-auto border-4 border-white" />
