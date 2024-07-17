@@ -131,7 +131,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         <button
           onClick={handleLogin}
-          className="w-full bg-pink-400 text-white py-2 rounded-md hover:bg-pink-600 transition duration-300"
+          className="w-full bg-pink-400 text-white py-2 rounded-md hover:bg-pink-500 transition duration-300"
         >
           ยืนยัน
         </button>
