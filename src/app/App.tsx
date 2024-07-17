@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Login from "../login/Page";
-import ShakeComponent from "../components/Shake";
+import Dashboard from "../Dashboard/Page";
 import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
 
@@ -36,10 +36,7 @@ const App = () => {
   return (
     <div>
       {isAuthenticated && userData ? (
-        <div className="text-center">
-          <ShakeComponent userData={userData} />
-          <h3>25 V.5.2</h3>
-        </div>
+        <Dashboard userData={userData}/>
       ) : (
         <Login onLogin={handleLogin} />
       )}
