@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -32,6 +32,8 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
+  const lastTickRef = useRef(new Date());
+  const lastCountRef = useRef(count);
 
   let lastAcceleration = 9.81;
   let acceleration = 0;
@@ -47,14 +49,25 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
 
-      acceleration = 0.45 * acceleration + delta;
+      acceleration = 0.9 * acceleration + delta;
 
       console.log(
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
       );
 
-      if (acceleration > 15 && !isShaking) {
-        setCount((prevCount) => prevCount + 1);
+      if (acceleration > 30 && !isShaking) {
+        setCount((prevCount) => {
+          const nowTick = new Date();
+          const newCount = prevCount + 1;
+
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 2000) {
+            return newCount;
+          }
+
+          lastTickRef.current = nowTick;
+          lastCountRef.current = newCount;
+          return newCount;
+        });
         setIsShaking(true);
         setIsPlaying(true)
       }
