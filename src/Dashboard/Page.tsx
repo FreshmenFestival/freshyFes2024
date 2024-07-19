@@ -49,6 +49,28 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
     fetchScores();
   }, [userData.group]);
 
+  const group = (groupId: string) => {
+    switch(groupId) {
+      case "1":
+        return "MonoRabian";
+      case "2":
+        return "Edenity";
+      case "3":
+        return "Tartarus";
+      case "4":
+        return "Avalon";
+      case "5":
+        return "Lyford";
+      case "6":
+        return "Atlansix";
+      case "7":
+        return "Staff";
+      default:
+        return "Unknown Group";
+    }
+  };
+
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-pink-200">
       <div className="absolute top-10 right-20 m-4 text-sm font-noto-sans text-white">
@@ -67,7 +89,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
         {scores.map((scoreData, index) => (
           <div className="flex flex-row" key={index}>
             <div className="w-1/3 text-sm p-4">{scoreData.rank}</div>
-            <div className="w-1/3 text-sm p-4">{scoreData.group}</div>
+            <div className="w-1/3 text-sm p-4">{group(scoreData.group)}</div>
             <div className="w-1/3 text-sm p-4">{scoreData.score}</div>
           </div>
         ))}
