@@ -27,7 +27,12 @@ interface UserData {
   uid: string;
 }
 
-const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
+interface ShakeComponentProps {
+  userData: UserData;
+  onShowDashboard: () => void; 
+}
+
+const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
@@ -96,7 +101,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
           score: count
         });
       }
-      alert("คะแนนถูกบันทึกแล้ว!");
+      onShowDashboard();
     } catch (error) {
       console.error("Error writing document: ", error);
     }

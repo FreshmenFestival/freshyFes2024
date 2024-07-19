@@ -77,9 +77,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+
+//<img  src="https://i.postimg.cc/0ySx6ttN/sci-logo.png" alt="image description">
+
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-pink-200 ">
-      <div className="bg-white p-8 rounded-lg shadow-md w-80 font-noto-sans">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-80 font-noto-sans">
         <h3 className="text-center text-2xl font-semibold mb-6">เข้าสู่ระบบ</h3>
 
         <div className="flex flex-col mb-4">
@@ -90,7 +94,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             value={studentId}
             onChange={handleID}
             onBlur={handleIDBlur}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50
+         focus:outline-none focus:border-pink-400"
           />
           {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
@@ -102,7 +107,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             placeholder="ใจ่ใจ๊"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-pink-500"
           />
         </div>
 
@@ -111,7 +116,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <select
             value={department}
             onChange={(e) => setDepartment(e.target.value as Department)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-pink-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-pink-500"
           >
             <option value="" disabled>
               เลือกภาควิชา
@@ -126,12 +131,21 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         <button
           onClick={handleLogin}
-          className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition duration-300"
+          className="w-full bg-pink-400 text-white py-2 rounded-md hover:bg-pink-500 transition duration-300"
         >
           ยืนยัน
         </button>
         {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+
+        <div className="block text-sm mb">
+        <label className="block text-sm mb-4"></label>
+          <img 
+            className="object-cover h-25 w-full"
+            src = "https://i.postimg.cc/QtFvPmF7/sci-logo-2.jpg" />
+        </div>
+
       </div>
+
     </div>
   );
 };

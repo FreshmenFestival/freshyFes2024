@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import Login from "../login/Page";
-import ShakeComponent from "../components/Shake";
 import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
+import Dashboard from "../Dashboard/Page";
+import ShakeComponent from "../components/Shake";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -33,12 +35,18 @@ const App = () => {
     setIsAuthenticated(true);
   };
 
+  const handleShowDashboard = () => {
+    setShowDashboard(true);
+  };
+
   return (
     <div>
       {isAuthenticated && userData ? (
-        <div className="text-center">
-          <ShakeComponent userData={userData} />
-        </div>
+        showDashboard ? (
+          <Dashboard userData={userData} />
+        ) : (
+          <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
+        )
       ) : (
         <Login onLogin={handleLogin} />
       )}
