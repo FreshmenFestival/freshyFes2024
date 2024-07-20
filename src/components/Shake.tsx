@@ -184,23 +184,22 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2 ">
         <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
-        <p>acceleration: {acceleration}</p>
         {!permissionRequested && (
           <div className="relative">
           <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
               alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
-            <p>Shake count: {count}</p>
         </div>
         
         )}
 
         {isPLaying && (
-          <button
-          className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none"
-          onClick={handleStop}
-        >
-          Stop
-        </button>
+          <div>
+            <p>acceleration: {acceleration}</p>
+            <p>Shake count: {count}</p>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
+              Stop
+            </button>
+          </div>
         )}
       </div>
     </div>
