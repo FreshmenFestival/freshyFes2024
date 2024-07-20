@@ -112,31 +112,31 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     switch(userData.group) {
       case "1" :
         return (
-          <span>MonoRabian</span>
+          <span className="text-orange-500">MonoRabian</span>
         );
       case "2" :
         return (
-          <span>Edenity</span>
+          <span className="text-green-600">Edenity</span>
         );
       case "3" :
         return (
-          <span>Tartarus</span>
+          <span className="text-purple-600">Tartarus</span>
         );
       case "4" :
         return (
-          <span>Avalon</span>
+          <span className="text-pink-500">Avalon</span>
         );
       case "5" :
         return (
-          <span>Lyford</span>
+          <span className="text-yellow-800">Lyford</span>
         );
       case "6" :
         return (
-          <span>Atlansix</span>
+          <span className="text-blue-500">Atlansix</span>
         );
       case "7" :
         return (
-          <span>Staff</span>
+          <span className=" " >Staff</span>
         );
     }
 
@@ -174,24 +174,25 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   };
 
   return (
+    
     <div className="flex flex-col items-center justify-center h-screen gap-2">
-      <div className="">
-        <p>ชื่อเล่น: {userData.name}</p>
-        <p>{group()}</p>
+      <div className="m-4 gap-4 ">
+        <div className="font-serif sm:col-span-2 min-h-[50px] text-4xl rounded-lg shadow bg-zinc-200 inline-block align-middle" > {userData.name} 
+          <p className="font-serif text-3xl text-center" > {group()} </p>
+        </div>
       </div>
-      <div className="relative">
-        <img src="shake.png" alt="profile" className="w-32 h-32 rounded-full mx-auto border-4 border-white" />
-      </div>
-      <div className="flex flex-col justify-center item-center ">
-        <p>Shake count: {count}</p>
+
+      <div className="flex flex-col items-center justify-center gap-2 ">
+        <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
         {!permissionRequested && (
-          <button
-            className="mt-4 px-6 py-2 bg-gray-500 text-white rounded-full focus:outline-none"
-            onClick={handleRequestMotion}
-          >
-            Start
-          </button>
+          <div className="relative">
+          <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
+              alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
+            <p>Shake count: {count}</p>
+        </div>
+        
         )}
+
         {isPLaying && (
           <button
           className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none"
