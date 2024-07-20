@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.flex{
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: auto;
+    column-gap: 10px;
+    row-gap: 5px;
+}
+
+.item{
+    box-shadow: 0px 0px 10px red;
+    background-color:deeppink;
+    padding: 16px;
+}
+
+.item-1{
+    grid-column:1/4;
+}

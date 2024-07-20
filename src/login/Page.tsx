@@ -77,10 +77,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
-
-//<img  src="https://i.postimg.cc/0ySx6ttN/sci-logo.png" alt="image description">
-
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-80 font-noto-sans">
