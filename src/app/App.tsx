@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import Login from "../login/Page";
+import Login from "../login/Page"; // นำเข้าหน้า Login
 import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
-import Dashboard from "../Dashboard/Page";
-import ShakeComponent from "../components/Shake";
+//import Dashboard from "../Dashboard/Page";
+import ComDashboard from "../comDashboard/Page";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -35,18 +34,11 @@ const App = () => {
     setIsAuthenticated(true);
   };
 
-  const handleShowDashboard = () => {
-    setShowDashboard(true);
-  };
-
   return (
     <div>
       {isAuthenticated && userData ? (
-        showDashboard ? (
-          <Dashboard userData={userData} />
-        ) : (
-          <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
-        )
+        //<Dashboard userData={userData}/>
+        <ComDashboard userData={userData}/>
       ) : (
         <Login onLogin={handleLogin} />
       )}
@@ -55,3 +47,4 @@ const App = () => {
 };
 
 export default App;
+

@@ -14,6 +14,7 @@ interface ScoreData {
 
 interface RankedScoreData extends ScoreData {
   rank: number;
+  percentage: number;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
@@ -32,12 +33,21 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
           score: doc.data().score,
         }));
 
-        // Sort the scores in descending order and add rank
+        if (scoresData.length === 0) {
+          setScores([]);
+          return;
+        }
+
+        // Calculate the total score for all groups
+        const total = scoresData.reduce((acc, score) => acc + score.score, 0);
+
+        // Sort the scores in descending order and add rank and percentage
         const rankedScoresData = scoresData
           .sort((a, b) => b.score - a.score)
           .map((data, index) => ({
             ...data,
-            rank: index + 1
+            rank: index + 1,
+            percentage: total === 0 ? 0 : (data.score / total) * 100 // Handle division by zero
           }));
 
         setScores(rankedScoresData);
@@ -70,7 +80,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
     }
   };
 
-
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-pink-200">
       <div className="absolute top-10 right-20 m-4 text-sm font-noto-sans text-white">
@@ -83,14 +92,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
         <div className="flex flex-row">
           <div className="w-1/3 text-sm p-4">อันดับ</div>
           <div className="w-1/3 text-sm p-4">ชื่อกรุ๊ป</div>
-          <div className="w-1/3 text-sm p-4">คะแนน</div>
+          <div className="w-1/3 text-sm p-4">เปอร์เซ็นต์</div>
         </div>
 
         {scores.map((scoreData, index) => (
           <div className="flex flex-row" key={index}>
             <div className="w-1/3 text-sm p-4">{scoreData.rank}</div>
             <div className="w-1/3 text-sm p-4">{group(scoreData.group)}</div>
-            <div className="w-1/3 text-sm p-4">{scoreData.score}</div>
+            <div className="w-1/3 text-sm p-4">{scoreData.percentage.toFixed(0)}%</div>
           </div>
         ))}
       </div>
@@ -107,3 +116,5 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
 };
 
 export default Dashboard;
+
+
