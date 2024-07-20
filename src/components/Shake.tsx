@@ -55,7 +55,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
 
-      acceleration = 0.45 * acceleration + delta;
+      acceleration = 0.9 * acceleration + delta;
 
       // for debugging purpose
       setShowacce(acceleration);
@@ -64,12 +64,12 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
       );
 
-      if (acceleration > 18 && !isShaking) {
+      if (acceleration > 30 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
           const newCount = prevCount + 1;
 
-          if (nowTick.getTime() - lastTickRef.current.getTime() < 2000) {
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 3000) {
             return newCount;
           }
 
