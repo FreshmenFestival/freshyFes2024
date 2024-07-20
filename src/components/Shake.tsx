@@ -184,6 +184,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2 ">
         <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
+        <p>acceleration: {acceleration}</p>
         {!permissionRequested && (
           <div className="relative">
           <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
