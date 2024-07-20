@@ -37,6 +37,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
+  const [showacce, setShowacce] = useState(0); // for debugging purpose
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
 
@@ -55,6 +56,9 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       lastAcceleration = currentAcceleration;
 
       acceleration = 0.9 * acceleration + delta;
+
+      // for debugging purpose
+      setShowacce(acceleration);
 
       console.log(
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
@@ -194,7 +198,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <p>acceleration: {acceleration}</p>
+            <p>acceleration: {showacce}</p>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
