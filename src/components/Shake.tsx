@@ -51,14 +51,14 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const y = acc.y;
       const z = acc.z;
 
-      // const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
-      // const delta = currentAcceleration - lastAcceleration;
-      // lastAcceleration = currentAcceleration;
+      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+      const delta = currentAcceleration - lastAcceleration;
+      lastAcceleration = currentAcceleration;
 
-      // acceleration = 0.9 * acceleration + delta;
+      acceleration = 0.9 * acceleration + delta;
 
-      acceleration = Math.sqrt(x * x + y * y + z * z);
-      lastAcceleration = acceleration;
+      // acceleration = Math.sqrt(x * x + y * y + z * z);
+      // lastAcceleration = acceleration;
 
       // for debugging purpose
       setShowacce(acceleration);
