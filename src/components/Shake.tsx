@@ -55,7 +55,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
 
-      acceleration = 0.45 * acceleration + delta;
+      acceleration = 0.9 * acceleration + delta;
 
       // for debugging purpose
       setShowacce(acceleration);
