@@ -8,7 +8,13 @@ export default {
     extend: {
       fontFamily: {
         "noto-sans": ["var(--font-sans)"],
-      }
+        "alex": ["'Alex Brush'", "cursive"],
+        "alice": ["'Alice'", "serif"],
+      },
+      backgroundImage: theme => ({
+        "phone": "url('/public/Phone.png')",
+        "PC": "url('/public/PC.png')"
+      })
     },
   },
   plugins: [],
