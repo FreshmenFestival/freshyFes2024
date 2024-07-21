@@ -199,7 +199,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <div className={`${isCountChange ? '-translate-y-1 scale-150' : ''} w-20 h-20 bg-blue-600 rounded-full relative transition ease-in-out duration-150 delay-150`}></div>
+            <div className={`${isCountChange ? '-translate-y-5 scale-150' : ''} w-20 h-20 bg-blue-600 rounded-full relative transition ease-in-out duration-100 delay-100`}></div>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
