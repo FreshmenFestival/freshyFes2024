@@ -68,12 +68,12 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         setCount((prevCount) => {
           const nowTick = new Date();
           
-          if (nowTick.getTime() - lastTickRef.current.getTime() < 250) {
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
             return prevCount;
           }
           
           const newCount = prevCount + 1;
-          
+
           lastTickRef.current = nowTick;
           lastCountRef.current = newCount;
           return newCount;
