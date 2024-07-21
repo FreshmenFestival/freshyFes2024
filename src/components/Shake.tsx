@@ -37,7 +37,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
-  const [countChange, setCountChange] = useState(false);
+  const [isCountChange, setIsCountChange] = useState(false);
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -59,17 +59,17 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       console.log(
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
       );
+      setIsCountChange(false);
 
       if (acceleration > 30 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
           
           if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
-            setCountChange(false);
             return prevCount;
           }
           
-          setCountChange(true);
+          setIsCountChange(true);
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
@@ -199,7 +199,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <div className={`${countChange ? 'w-30 h-30' : 'w-20 h-20'} bg-blue-600 rounded-full relative transition ease-in-out duration-100`}></div>
+            <div className={`${isCountChange ? '-translate-y-1 scale-150' : ''} w-20 h-20 bg-blue-600 rounded-full relative transition ease-in-out duration-100`}></div>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
