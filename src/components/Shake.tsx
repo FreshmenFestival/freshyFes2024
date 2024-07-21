@@ -199,7 +199,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         {isPLaying && (
           <div>
             <span className="relative flex h-10 w-10">
-              <span className={`${isCountChange ? 'animate-[ping] absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75' : '' }`}></span>
+              <span className={`${isCountChange ? 'animate-[ping2] absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75' : '' }`}></span>
               <span className="relative inline-flex rounded-full h-10 w-10 bg-sky-500"></span>
             </span>
             <p>Shake count: {count}</p>
