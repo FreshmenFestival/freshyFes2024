@@ -82,19 +82,19 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
   const getColor = (getGroupName: string) => {
     switch(getGroupName) {
       case "MonoRabian":
-        return "#ff7300"; 
+        return "#F57B2D"; 
       case "Edenity":
-        return "#387908"; 
+        return "#056100"; 
       case "Tartarus":
-        return "#a4de6c"; 
+        return "#7429A5"; 
       case "Avalon":
-        return "#8a4d76"; 
+        return "#FF9ECA"; 
       case "Lyford":
-        return "#d0d0d0"; 
+        return "#E8AB29"; 
       case "Atlansix":
-        return "#00c49f"; 
+        return "#3B61C8"; 
       case "Staff":
-        return "#000000"; 
+        return "#C6C6C6"; 
       default:
         return "#8884d8"; 
     }
@@ -106,23 +106,23 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
   }));
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-pink-200">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-white">
       <h3 className="text-center text-2xl font-semibold mb-6">สรุปผล</h3>
 
       <BarChart width={1000} height={100} data={formattedScores} layout="vertical">
 
-        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#C6C6C6" />
 
         <XAxis 
           type="number" 
-          tick={{ fill: '#ffffff' }} 
-          stroke="#ffffff"
+          tick={{ fill: '#C6C6C6', fontSize: '12px'  }} 
+          stroke="#C6C6C6"
         />
 
         <YAxis type="category" 
           dataKey="group" 
-          tick={{ fill: '#ffffff' }} 
-          stroke="#ffffff"
+          tick={{ fill: '#C6C6C6', fontSize: '12px'  }} 
+          stroke="#C6C6C6"
         />
 
         <Tooltip 
@@ -134,7 +134,7 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
 
         <Bar dataKey="percentage">
           {formattedScores.map((score, index) => (
-            <Cell key={`cell-${index}`} fill={getColor(score.group)} />
+            <Cell key={`cell-${index}`} fill={getColor(score.group)}/>
           ))}
         </Bar>
 

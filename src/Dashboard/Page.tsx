@@ -82,24 +82,24 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-pink-200">
-      <div className="absolute top-10 right-20 m-4 text-sm font-noto-sans text-white">
+      <div className="absolute top-10 right-10 m-4 text-xs font-noto-sans text-white">
         {userData.name}
       </div>
 
-      <div className="bg-white p-8 rounded-lg shadow-md w-80 font-noto-sans">
+      <div className="bg-white p-8 rounded-lg shadow-md w-80 max-w-md font-noto-sans">
         <h3 className="text-center text-2xl font-semibold mb-6">สรุปผล</h3>
 
         <div className="flex flex-row">
-          <div className="w-1/3 text-sm p-4">อันดับ</div>
-          <div className="w-1/3 text-sm p-4">ชื่อกรุ๊ป</div>
-          <div className="w-1/3 text-sm p-4">เปอร์เซ็นต์</div>
+          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">อันดับ</div>
+          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">ชื่อกรุ๊ป</div>
+          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">เปอร์เซ็นต์</div>
         </div>
 
         {scores.map((scoreData, index) => (
           <div className="flex flex-row" key={index}>
-            <div className="w-1/3 text-sm p-4">{scoreData.rank}</div>
-            <div className="w-1/3 text-sm p-4">{group(scoreData.group)}</div>
-            <div className="w-1/3 text-sm p-4">{scoreData.percentage.toFixed(0)}%</div>
+            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{scoreData.rank}</div>
+            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{group(scoreData.group)}</div>
+            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{scoreData.percentage.toFixed(0)}%</div>
           </div>
         ))}
       </div>
