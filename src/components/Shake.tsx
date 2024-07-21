@@ -51,10 +51,9 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const z = acc.z;
 
       const currentAcceleration = Math.hypot(x, y, z);
-			const delta = currentAcceleration - lastAcceleration;
-			lastAcceleration = currentAcceleration;
-
-			acceleration = 0.9 * acceleration + delta;
+      const delta = currentAcceleration - lastAcceleration;
+      lastAcceleration = currentAcceleration;
+      acceleration = 0.9 * acceleration + delta;
 
       console.log(
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
