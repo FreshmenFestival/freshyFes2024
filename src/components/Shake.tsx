@@ -39,8 +39,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isPLaying, setIsPlaying] = useState(false);
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
-
-	let lastAcceleration = 9.81;
+  
+  let lastAcceleration = 9.81;
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
