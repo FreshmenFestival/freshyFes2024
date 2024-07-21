@@ -11,6 +11,9 @@ export default {
         "alex": ["'Alex Brush'", "cursive"],
         "alice": ["'Alice'", "serif"],
       },
+      animation: {
+        'pingonce': 'ping 1s cubic-bezier(0, 0, 0.2, 1)',
+      },
       backgroundImage: theme => ({
         "phone": "url('/public/Phone.png')",
         "PC": "url('/public/PC.png')"
