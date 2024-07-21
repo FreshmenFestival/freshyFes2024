@@ -39,7 +39,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isPLaying, setIsPlaying] = useState(false);
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
-
+  
   let lastAcceleration = 9.81;
   let acceleration = 0;
 
@@ -50,10 +50,9 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const y = acc.y;
       const z = acc.z;
 
-      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+      const currentAcceleration = Math.hypot(x, y, z);
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
-
       acceleration = 0.9 * acceleration + delta;
 
       console.log(
@@ -63,11 +62,12 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       if (acceleration > 30 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
-          const newCount = prevCount + 1;
-
-          if (nowTick.getTime() - lastTickRef.current.getTime() < 2000) {
-            return newCount;
+          
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
+            return prevCount;
           }
+          
+          const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
           lastCountRef.current = newCount;
@@ -194,7 +194,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <p>acceleration: {acceleration}</p>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
