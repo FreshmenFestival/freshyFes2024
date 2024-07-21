@@ -201,7 +201,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         {isPLaying && (
           <div>
             <img src="https://helios-i.mashable.com/imagery/articles/03zqAE0SDP8DN1UM0S7G29D/images-1.fill.size_2000x1155.v1611686953.jpg"  
-                className={`${countChange ? 'animate-ping' : ''} w-20 h-20`}
+                className={`transition-all duration-300 ${countChange ? 'w-30 h-30' : 'w-20 h-20'} `}
             />
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
