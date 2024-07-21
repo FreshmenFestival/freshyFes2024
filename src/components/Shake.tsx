@@ -196,7 +196,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <div className={`animate-ping w-20 h-20 bg-blue-600 rounded-full`}></div>
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+            </span>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
