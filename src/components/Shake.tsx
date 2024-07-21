@@ -41,16 +41,21 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
 
+	let lastAcceleration = 9.81;
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
-    const acc = event.acceleration;
+    const acc = event.accelerationIncludingGravity;
     if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
       const x = acc.x;
       const y = acc.y;
       const z = acc.z;
 
-      acceleration = Math.sqrt(x * x + y * y + z * z);
+      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+			const delta = currentAcceleration - lastAcceleration;
+			lastAcceleration = currentAcceleration;
+
+			acceleration = 0.9 * acceleration + delta;
 
       // for debugging purpose
       setShowacce(acceleration);
