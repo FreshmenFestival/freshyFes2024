@@ -187,23 +187,22 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2 ">
-        <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
         {!permissionRequested && (
           <div className="relative">
-          <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
-              alt="profile" 
-              className="w-40 h-40 rounded-full mx-auto  border-4 border-white " 
-              onClick={handleRequestMotion} 
-          />
-        </div>
-        
+            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
+            <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
+                alt="profile" 
+                className="w-40 h-40 rounded-full mx-auto  border-4 border-white " 
+                onClick={handleRequestMotion} 
+            />
+          </div>
         )}
 
         {isPLaying && (
           <div>
             <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
                 alt="profile" 
-                className={`${countChange ? '-translate-y-5px transition duration-300 ease-in-out' : 'transform-none'} w-20 h-20 rounded-full mx-auto border-4 border-white`}
+                className={`${countChange ? 'translate-x-10px transition duration-300 ease-in-out' : 'transform-none'} w-20 h-20 rounded-full mx-auto border-4 border-white`}
             />
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
