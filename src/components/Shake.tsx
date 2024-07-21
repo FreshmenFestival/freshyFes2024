@@ -51,7 +51,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const y = acc.y;
       const z = acc.z;
 
-      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+      const currentAcceleration = Math.hypot(x, y, z);
 			const delta = currentAcceleration - lastAcceleration;
 			lastAcceleration = currentAcceleration;
 
@@ -69,8 +69,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           const nowTick = new Date();
           const newCount = prevCount + 1;
 
-          if (nowTick.getTime() - lastTickRef.current.getTime() < 2000) {
-            return newCount;
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 1000) {
+            return prevCount;
           }
 
           lastTickRef.current = nowTick;
