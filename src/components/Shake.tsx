@@ -45,7 +45,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
-    setCountChange(true);
     const acc = event.accelerationIncludingGravity;
     if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
       const x = acc.x;
@@ -60,6 +59,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       console.log(
         `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
       );
+
+      setCountChange(false);
 
       if (acceleration > 30 && !isShaking) {
         setCount((prevCount) => {
@@ -202,7 +203,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           <div>
             <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
                 alt="profile" 
-                className={`${countChange ? 'w-60 h-60 transition duration-150' : 'w-40 h-40'} rounded-full mx-auto border-4 border-white`}
+                className={`${countChange ? 'w-20 h-20 transition duration-150' : 'w-40 h-40'} rounded-full mx-auto border-4 border-white`}
             />
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
