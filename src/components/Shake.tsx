@@ -37,6 +37,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
+  const [countChange, setCountChange] = useState(false);
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -44,6 +45,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
+    setCountChange(true);
     const acc = event.accelerationIncludingGravity;
     if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
       const x = acc.x;
@@ -67,6 +69,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
             return prevCount;
           }
           
+          setCountChange(true);
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
@@ -187,13 +190,20 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         {!permissionRequested && (
           <div className="relative">
           <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
-              alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
+              alt="profile" 
+              className="w-40 h-40 rounded-full mx-auto  border-4 border-white " 
+              onClick={handleRequestMotion} 
+          />
         </div>
         
         )}
 
         {isPLaying && (
           <div>
+            <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
+                alt="profile" 
+                className={`${countChange ? 'w-60 h-60 transition duration-150' : 'w-40 h-40'} rounded-full mx-auto border-4 border-white`}
+            />
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop
