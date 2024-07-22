@@ -179,9 +179,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     setTestTxt("Shaking");
   }
 
-  const animateShake = async () => {
-    let id = await setInterval(changeTxt, 1000);
+  async function animateShake() {
+    let id = setInterval(changeTxt, 1000);
     clearInterval(id);
+    setTestTxt("didn't shake");
   }
 
   return (
