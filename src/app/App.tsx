@@ -4,6 +4,7 @@ import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
 import Dashboard from "../Dashboard/Page";
 import ShakeComponent from "../components/Shake";
+// import ComDashboard from "../comDashboard/Page";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,13 +40,26 @@ const App = () => {
     setShowDashboard(true);
   };
 
+  const handleBack = () => {
+    setShowDashboard(false);
+  };
+
   return (
     <div>
+      
       {isAuthenticated && userData ? (
         showDashboard ? (
+          <>
           <Dashboard userData={userData} />
+          <button className="mt-4 px-6 py-2 bg-white text-center text-sm  font-prompt font-semibold mb-6 
+          rounded-lg focus:outline-none" onClick={handleBack}>
+            Back
+          </button>
+          </>
         ) : (
+          <>
           <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
+          </>
         )
       ) : (
         <Login onLogin={handleLogin} />
@@ -55,3 +69,4 @@ const App = () => {
 };
 
 export default App;
+
