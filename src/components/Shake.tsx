@@ -37,7 +37,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
-  const [isCountChange, setIsCountChange] = useState(false);
+  const [testTxt, setTestTxt] = useState("didn't shake");   // debugging
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -67,9 +67,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
             return prevCount;
           }
-          
-          setIsCountChange(false);
-          setIsCountChange(true);
+
+          animateShake(); // debugging
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
@@ -176,34 +175,40 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
+  const changeTxt = () => {
+    setTestTxt("Shaking");
+  }
+
+  const animateShake = async () => {
+    let id = setInterval(changeTxt, 150);
+    clearInterval(id);
+  }
+
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen gap-2">
+    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 ">
-        <div className="font-serif sm:col-span-2 min-h-[50px] text-4xl rounded-lg shadow bg-zinc-200 inline-block align-middle" > {userData.name} 
-          <p className="font-serif text-3xl text-center" > {group()} </p>
+        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg shadow bg-zinc-200 inline-block align-left" > 
+          <p>{userData.name}</p>
+          <p className="text-center">{group()} </p>
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2 ">
         {!permissionRequested && (
           <div className="relative">
-            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
-            <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
-                alt="profile" 
-                className="w-40 h-40 rounded-full mx-auto  border-4 border-white " 
-                onClick={handleRequestMotion} 
-            />
-          </div>
+          <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
+        </div>
+        
         )}
 
         {isPLaying && (
           <div>
-            <div className={`w-20 h-20 ${isCountChange ? 'animate-pingonce bg-green-600' : 'bg-white-600'} rounded-full`}></div>
+            <div className="shakeAnimate">
+              <h3 id="debugging">{testTxt}</h3>
+            </div>
             <p>Shake count: {count}</p>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
-              Stop
-            </button>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>stop</button>
           </div>
         )}
       </div>

@@ -80,39 +80,39 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone ">
       <div className="text-amber-900 p-8 rounded-2xl  w-80">
-        <h1 className="text-center text-4xl font-alex"><b>Welcome to</b></h1>
-        <h1 className="text-center text-5xl mb-6 font-alex"><b>Yggdrasil</b></h1>
+        <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
+        <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
         <div className="flex flex-col mb-4 font-alice">
-          <label className="block text-sm">Student ID</label>
+          <label className="block text-base">Student ID</label>
           <input
             type="text"
             placeholder="67xxxxxx23"
             value={studentId}
             onChange={handleID}
             onBlur={handleIDBlur}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50
-         focus:outline-none focus:border-pink-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
+         focus:outline-none focus:border-amber-900"
           />
           {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
 
         <div className="flex flex-col mb-4 font-alice">
-          <label className="block text-sm ">Name</label>
+          <label className="block text-base ">Name</label>
           <input
             type="text"
             placeholder="ใจ่ใจ๊"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-pink-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
           />
         </div>
 
         <div className="flex flex-col mb-6 font-alice">
-          <label className="block text-sm ">Depertment</label>
+          <label className="block text-base">Department</label>
           <select
             value={department}
             onChange={(e) => setDepartment(e.target.value as Department)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-pink-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
           >
             <option value="" disabled>
               Department
@@ -127,7 +127,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         <button
           onClick={handleLogin}
-          className="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-pink-500 transition duration-300 font-alice"
+          className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
         >
           Accept
         </button>

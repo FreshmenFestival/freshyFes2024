@@ -81,36 +81,34 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-pink-200">
-      <div className="absolute top-10 right-10 m-4 text-xs font-noto-sans text-white">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-phone font-prompt">
+      <div className="absolute top-10 right-10 m-4 text-xs text-white">
         {userData.name}
       </div>
 
-      <div className="bg-white p-8 rounded-lg shadow-md w-80 max-w-md font-noto-sans">
-        <h3 className="text-center text-2xl font-semibold mb-6">สรุปผล</h3>
+      <div className="bg-white p-8 rounded-lg shadow-md w-80 max-w-md font-noto-sans mt-20">
+        <h3 className="text-center text-2xl font-semibold mb-4">สรุปผล</h3>
 
-        <div className="flex flex-row">
-          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">อันดับ</div>
-          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">ชื่อกรุ๊ป</div>
-          <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">เปอร์เซ็นต์</div>
-        </div>
-
-        {scores.map((scoreData, index) => (
-          <div className="flex flex-row" key={index}>
-            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{scoreData.rank}</div>
-            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{group(scoreData.group)}</div>
-            <div className="w-1/3 text-xs md:text-sm p-2 md:p-4">{scoreData.percentage.toFixed(0)}%</div>
-          </div>
-        ))}
+        <table className="w-full text-center">
+          <thead>
+            <tr>
+              <th className="text-xs md:text-sm p-2 md:p-4">อันดับ</th>
+              <th className="text-xs md:text-sm p-2 md:p-4">ชื่อกรุ๊ป</th>
+              <th className="text-xs md:text-sm p-2 md:p-4">เปอร์เซ็นต์</th>
+            </tr>
+          </thead>
+          <tbody>
+            {scores.map((scoreData, index) => (
+              <tr key={index} className="border-t">
+                <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.rank}</td>
+                <td className="text-xs md:text-sm p-2 md:p-4">{group(scoreData.group)}</td>
+                <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.percentage.toFixed(0)}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      <button
-        className="mt-4 px-6 py-2 bg-white text-center text-sm font-semibold mb-6 rounded-lg focus:outline-none"
-      >
-        Back
-      </button>
-
-      <div className="text-white text-xs underline p-4">ออกจากระบบ</div>
     </div>
   );
 };
