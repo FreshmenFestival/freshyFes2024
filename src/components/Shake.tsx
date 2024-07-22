@@ -180,7 +180,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   }
 
   const animateShake = async () => {
-    let id = setInterval(changeTxt, 150);
+    let id = setInterval(changeTxt, 1000);
     clearInterval(id);
   }
 
