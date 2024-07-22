@@ -50,11 +50,8 @@ const App = () => {
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
-          <Dashboard userData={userData} />
-          <button className="mt-4 px-6 py-2 bg-white text-center text-sm  font-prompt font-semibold mb-6 
-          rounded-lg focus:outline-none" onClick={handleBack}>
-            Back
-          </button>
+          <Dashboard userData={userData} onBack={handleBack}/>
+          
           </>
         ) : (
           <>
