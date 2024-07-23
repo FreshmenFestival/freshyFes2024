@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -29,16 +29,15 @@ interface UserData {
 
 interface ShakeComponentProps {
   userData: UserData;
-  onShowDashboard: () => void; 
+  onShowDashboard: () => void;
 }
 
 const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard }) => {
   const [count, setCount] = useState(0);
-  const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
-  const [isPLaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [animate, setAnimate] = useState(false);
   const lastTickRef = useRef(new Date());
-  const lastCountRef = useRef(count);
   
   let lastAcceleration = 9.81;
   let acceleration = 0;
@@ -55,11 +54,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       lastAcceleration = currentAcceleration;
       acceleration = 0.9 * acceleration + delta;
 
-      console.log(
-        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
-      );
-
-      if (acceleration > 30 && !isShaking) {
+      if (acceleration > 30) {
         setCount((prevCount) => {
           const nowTick = new Date();
           
@@ -70,42 +65,62 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
-          lastCountRef.current = newCount;
+          setAnimate(true);
           return newCount;
         });
-        setIsShaking(true);
-        setIsPlaying(true)
+        setIsPlaying(true);
       }
     }
   };
 
-  const handleStop = async () => {
-    window.removeEventListener("devicemotion", handleMotion as EventListener);
-    setIsPlaying(false);
+  useEffect(() => {
+    const handleMotionWrapper = handleMotion as EventListener;
+    
+    if (isPlaying) {
+      window.addEventListener("devicemotion", handleMotionWrapper);
+    }
 
-    const s = query(
-      collection(db, "scores"),
-      where("group", "==", userData.group)
-    );
-  
+    return () => {
+      window.removeEventListener("devicemotion", handleMotionWrapper);
+    };
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (animate) {
+      const timeout = setTimeout(() => {
+        setAnimate(false);
+      }, 1000); // อนิเมชั่นจะหายไปหลัง 1 วินาที
+
+      return () => clearTimeout(timeout);
+    }
+  }, [animate]);
+
+  const handleStop = async () => {
     try {
+      window.removeEventListener("devicemotion", handleMotion as EventListener);
+      setIsPlaying(false);
+
+      const s = query(
+        collection(db, "scores"),
+        where("group", "==", userData.group)
+      );
+      
       const querySnapshot = await getDocs(s);
       if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
+        await Promise.all(querySnapshot.docs.map((doc) => {
           const newScore = (doc.data().score || 0) + count;
-          updateDoc(doc.ref, { score: newScore });
-        });
+          return updateDoc(doc.ref, { score: newScore });
+        }));
       } else {
         await addDoc(collection(db, "scores"), {
           group: userData.group,
-          score: count
+          score: count,
         });
       }
       onShowDashboard();
     } catch (error) {
       console.error("Error writing document: ", error);
     }
-
   };
 
   const group = () => {
@@ -139,7 +154,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           <span className="text-amber-900">Staff</span>
         );
     }
-  }
+  };
 
   const imgGroup = () => {
     switch(userData.group) {
@@ -169,10 +184,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         );
       case "7" :
         return (
-          <button className="text-amber-900 bg-white rounded-full w-[70px] h-[70px] mb-2">Staff</button>
+          <img src="/public/logo.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
     }
-  }
+  };
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -183,10 +198,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
             DeviceMotionEvent as any
           ).requestPermission();
           if (permissionStatus === "granted") {
-            window.addEventListener(
-              "devicemotion",
-              handleMotion as EventListener
-            );
             setPermissionRequested(true);
           } else {
             alert("Permission not granted");
@@ -200,32 +211,36 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         );
       }
     } else if (mobile === "Android") {
-      window.addEventListener("devicemotion", handleMotion as EventListener);
       setPermissionRequested(true);
     }
   };
 
   return (
-    
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
-      <div className="m-4 gap-4 ">
-        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg shadow justify-center align-center">
-          <span>{imgGroup()}</span>
-          <h3 className="text-amber-900">{userData.name}</h3>
-          <h3 className="text-center">{group()} </h3>
+      <div className="m-4 gap-4 flex justify-end">
+        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
+          <span className="align-center justify-items-center">{imgGroup()}</span>
+          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+          <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2">
         {!permissionRequested && (
           <div className="relative">
-          <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
-        </div>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
+          </div>
         )}
 
         <p className="text-amber-900">Shake count: {count}</p>
 
-        {isPLaying && (
+        {animate && (
+          <div className="animate-bounce text-green-500 text-xl font-bold">
+            +1
+          </div>
+        )}
+
+        {isPlaying && (
           <div>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               Stop

@@ -79,10 +79,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone ">
-      <div className="text-amber-900 p-8 rounded-2xl  w-80">
+      <div className="text-amber-900 rounded-2xl  w-80">
         <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
         <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
-        <div className="flex flex-col mb-4 font-alice">
+        <div className="flex flex-col font-alice mb-2">
           <label className="block text-base">Student ID</label>
           <input
             type="text"
@@ -96,7 +96,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
 
-        <div className="flex flex-col mb-4 font-alice">
+        <div className="flex flex-col mb-2 font-alice">
           <label className="block text-base ">Name</label>
           <input
             type="text"
@@ -107,7 +107,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           />
         </div>
 
-        <div className="flex flex-col mb-6 font-alice">
+        <div className="flex flex-col mb-2 font-alice">
           <label className="block text-base">Department</label>
           <select
             value={department}
