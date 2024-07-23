@@ -5,6 +5,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 
 interface DashboardProps {
   userData: UserData;
+  onBack: () => void;
 }
 
 interface ScoreData {
@@ -17,7 +18,7 @@ interface RankedScoreData extends ScoreData {
   percentage: number;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
+const Dashboard: React.FC<DashboardProps> = ({ userData, onBack }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
 
   useEffect(() => {
@@ -108,6 +109,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userData }) => {
           </tbody>
         </table>
       </div>
+
+      <button className="mt-4 px-6 py-2 bg-white text-center text-sm  font-prompt font-semibold mb-6 
+          rounded-lg focus:outline-none" onClick={onBack}>
+            Back
+      </button>
 
     </div>
   );

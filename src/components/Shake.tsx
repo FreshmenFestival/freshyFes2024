@@ -37,6 +37,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
+  const [isBouncing, setIsBouncing] = useState(false); 
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -55,9 +56,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       lastAcceleration = currentAcceleration;
       acceleration = 0.9 * acceleration + delta;
 
-      console.log(
-        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
-      );
+      console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
 
       if (acceleration > 30 && !isShaking) {
         setCount((prevCount) => {
@@ -75,6 +74,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         });
         setIsShaking(true);
         setIsPlaying(true);
+        setIsBouncing(true);
       }
     }
   };
@@ -136,10 +136,42 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         );
       case "7" :
         return (
-          <span className=" " >Staff</span>
+          <span className="text-amber-900">Staff</span>
         );
     }
+  }
 
+  const imgGroup = () => {
+    switch(userData.group) {
+      case "1" :
+        return (
+          <img src="/public/G1.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "2" :
+        return (
+          <img src="/public/G2.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "3" :
+        return (
+          <img src="/public/G3.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "4" :
+        return (
+          <img src="/public/G4.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "5" :
+        return (
+          <img src="/public/G5.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "6" :
+        return (
+          <img src="/public/G6.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+      case "7" :
+        return (
+          <img src="/public/logo.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+        );
+    }
   }
 
   const handleRequestMotion = async () => {
@@ -177,25 +209,32 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   return (
     
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
-      <div className="m-4 gap-4 ">
-        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg shadow bg-zinc-200 inline-block align-left" > 
-          <p>{userData.name}</p>
-          <p className="text-center">{group()} </p>
+      <div className="m-4 gap-4 flex justify-end">
+        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
+          <span className="align-center justify-items-center">{imgGroup()}</span>
+          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+          <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-2 ">
+      <div className="flex flex-col items-center justify-center gap-2">
+
+        <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounce' : ''}`}/>
+
         {!permissionRequested && (
           <div className="relative">
           <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
         </div>
-        
         )}
+
+        
+        <p className="text-amber-900">Shake count: {count}</p>
 
         {isPLaying && (
           <div>
-            <p>Shake count: {count}</p>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>stop</button>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
+              stop
+            </button>
           </div>
         )}
       </div>

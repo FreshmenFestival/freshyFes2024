@@ -107,7 +107,7 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-PC">
-      <h3 className="text-center text-4xl font-great mb-6"><b>Scores</b></h3>
+      <h3 className="text-center text-4xl text-amber-900 font-great mb-6"><b>Scores</b></h3>
 
       <BarChart width={1000} height={100} data={formattedScores} layout="vertical">
 
