@@ -220,10 +220,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       <div className="flex flex-col items-center justify-center gap-2">
 
         {isBouncing && (
-          <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+          <img src="/public/tiger.png" className={`h-[150px] animate-bounceonce`}/>
         )}
         {!isBouncing && (
-          <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+          <img src="/public/tiger.png" className={`h-[150px]`}/>
         )}
         
         {!permissionRequested && (
