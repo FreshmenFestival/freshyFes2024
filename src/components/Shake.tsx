@@ -219,22 +219,17 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        {isBouncing && (
-          <img src="/public/tiger.png" className={`h-[150px] animate-bounceonce`}/>
-        )}
-        {!isBouncing && (
-          <img src="/public/tiger.png" className={`h-[150px]`}/>
-        )}
+        <img key={Math.random()} src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounce' : ''}`}/>
+
+        <p className="text-amber-900">Shake count: {count}</p>
         
         {!permissionRequested && (
           <div className="relative">
-          <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
-        </div>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>
+              start
+            </button>
+          </div>
         )}
-
-        
-        <p className="text-amber-900">Shake count: {count}</p>
-
         {isPLaying && (
           <div>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
