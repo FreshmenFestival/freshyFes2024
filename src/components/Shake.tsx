@@ -219,8 +219,13 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
-
+        {isBouncing && (
+          <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        )}
+        {!isBouncing && (
+          <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        )}
+        
         {!permissionRequested && (
           <div className="relative">
           <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
