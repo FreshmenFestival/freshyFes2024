@@ -15,6 +15,7 @@ export default {
       },
       animation: {
         'pingonce': 'ping 1s cubic-bezier(0, 0, 0.2, 1)',
+        'bounceonce': 'bounce 0.2s',
       },
       backgroundImage: theme => ({
         "phone": "url('/public/Phone.png')",
