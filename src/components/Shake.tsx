@@ -175,19 +175,18 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen gap-2">
+    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 ">
-        <div className="font-serif sm:col-span-2 min-h-[50px] text-4xl rounded-lg shadow bg-zinc-200 inline-block align-middle" > {userData.name} 
-          <p className="font-serif text-3xl text-center" > {group()} </p>
+        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg shadow bg-zinc-200 inline-block align-left" > 
+          <p>{userData.name}</p>
+          <p className="text-center">{group()} </p>
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2 ">
-        <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
         {!permissionRequested && (
           <div className="relative">
-          <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
-              alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
+          <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>start</button>
         </div>
         
         )}

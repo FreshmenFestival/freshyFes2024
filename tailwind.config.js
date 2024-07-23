@@ -10,6 +10,8 @@ export default {
         "noto-sans": ["var(--font-sans)"],
         "alex": ["'Alex Brush'", "cursive"],
         "alice": ["'Alice'", "serif"],
+        "great": ["'Great Vibes'","cursive"],
+        "prompt": ["'Prompt'"]
       },
       backgroundImage: theme => ({
         "phone": "url('/public/Phone.png')",
