@@ -37,7 +37,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
-  const [testTxt, setTestTxt] = useState("didn't shake");   // debugging
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -68,7 +67,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
             return prevCount;
           }
 
-          animateShake(); // debugging
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
@@ -175,15 +173,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
-  const changeTxt = () => {
-    setTestTxt("Shaking");
-  }
-
-  async function animateShake() {
-    let id = setInterval(changeTxt, 1000);
-    clearInterval(id);
-    setTestTxt("didn't shake");
-  }
 
   return (
     
@@ -205,9 +194,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <div className="shakeAnimate">
-              <h3 id="debugging">{testTxt}</h3>
-            </div>
             <p>Shake count: {count}</p>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>stop</button>
           </div>
