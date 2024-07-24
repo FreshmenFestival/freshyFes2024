@@ -21,82 +21,75 @@ interface RankedScoreData extends ScoreData {
 const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const q = query(
-          collection(db, "scores"),
-          where("group", "==", userData.group)
-        );
+        const q = collection(db, "scores");
         const querySnapshot = await getDocs(q);
         const scoresData: ScoreData[] = querySnapshot.docs.map(doc => ({
           group: doc.data().group,
           score: doc.data().score,
         }));
 
-        if (scoresData.length === 0) {
-          setScores([]);
-          return;
-        }
+        const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
+        const groupedScores = allGroups.map(groupId => {
+          const groupScores = scoresData.filter(score => score.group === groupId);
+          const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
+          return { group: groupId, score: totalScore };
+        });
 
-        const total = scoresData.reduce((acc, score) => acc + score.score, 0);
+        const totalScoreSum = groupedScores.reduce((acc, score) => acc + score.score, 0);
 
-        const rankedScoresData = scoresData
-          .sort((a, b) => b.score - a.score)
-          .map((data, index) => ({
-            ...data,
-            rank: index + 1,
-            percentage: total === 0 ? 0 : (data.score / total) * 100
-          }));
+        const scoresWithPercentage = groupedScores.map(scoreData => ({
+          ...scoreData,
+          percentage: totalScoreSum === 0 ? 0 : (scoreData.score / totalScoreSum) * 100
+        }));
 
-        setScores(rankedScoresData);
+        const sortedScores = scoresWithPercentage.sort((a, b) => b.score - a.score);
+
+        const rankedScores = sortedScores.map((scoreData, index) => ({
+          ...scoreData,
+          rank: index + 1
+        }));
+
+        setScores(rankedScores);
       } catch (err) {
+        setError("Error fetching scores");
         console.error("Error fetching scores:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchScores();
-  }, [userData.group]);
+  }, []);
 
   const getGroupName = (groupId: string) => {
     switch(groupId) {
-      case "1":
-        return "MonoRabian";
-      case "2":
-        return "Edenity";
-      case "3":
-        return "Tartarus";
-      case "4":
-        return "Avalon";
-      case "5":
-        return "Lyford";
-      case "6":
-        return "Atlansix";
-      case "7":
-        return "Staff";
-      default:
-        return "Unknown Group";
+      case "1": return "MonoRabian";
+      case "2": return "Edenity";
+      case "3": return "Tartarus";
+      case "4": return "Avalon";
+      case "5": return "Lyford";
+      case "6": return "Atlansix";
+      case "7": return "Staff";
+      default: return "Unknown Group";
     }
   };
 
   const getColor = (getGroupName: string) => {
     switch(getGroupName) {
-      case "MonoRabian":
-        return "#F57B2D"; 
-      case "Edenity":
-        return "#056100"; 
-      case "Tartarus":
-        return "#7429A5"; 
-      case "Avalon":
-        return "#FF9ECA"; 
-      case "Lyford":
-        return "#E8AB29"; 
-      case "Atlansix":
-        return "#3B61C8"; 
-      case "Staff":
-        return "#C6C6C6"; 
-      default:
-        return "#8884d8"; 
+      case "MonoRabian": return "#F57B2D"; 
+      case "Edenity": return "#056100"; 
+      case "Tartarus": return "#7429A5"; 
+      case "Avalon": return "#FF9ECA"; 
+      case "Lyford": return "#E8AB29"; 
+      case "Atlansix": return "#3B61C8"; 
+      case "Staff": return "#C6C6C6"; 
+      default: return "#8884d8"; 
     }
   };
 
@@ -109,20 +102,20 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
     <div className="flex flex-col justify-center items-center min-h-screen bg-PC">
       <h3 className="text-center text-4xl text-amber-900 font-great mb-6"><b>Scores</b></h3>
 
-      <BarChart width={1000} height={100} data={formattedScores} layout="vertical">
+      <BarChart width={800} height={300} data={formattedScores} layout="vertical">
 
         <CartesianGrid strokeDasharray="3 3" stroke="#C6C6C6" />
 
         <XAxis 
           type="number" 
-          tick={{ fill: '#C6C6C6', fontSize: '12px'  }} 
-          stroke="#C6C6C6"
+          tick={{ fill: '#000000', fontSize: '12px'  }} 
+          stroke="#000000"
         />
 
         <YAxis type="category" 
           dataKey="group" 
-          tick={{ fill: '#C6C6C6', fontSize: '12px'  }} 
-          stroke="#C6C6C6"
+          tick={{ fill: '#000000', fontSize: '10px'  }} 
+          stroke="#000000"
         />
 
         <Tooltip 
