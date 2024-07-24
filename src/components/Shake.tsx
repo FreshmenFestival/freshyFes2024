@@ -145,31 +145,31 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     switch(userData.group) {
       case "1" :
         return (
-          <img src="/public/G1.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G1.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "2" :
         return (
-          <img src="/public/G2.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G2.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "3" :
         return (
-          <img src="/public/G3.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G3.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "4" :
         return (
-          <img src="/public/G4.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G4.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "5" :
         return (
-          <img src="/public/G5.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G5.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "6" :
         return (
-          <img src="/public/G6.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/G6.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
       case "7" :
         return (
-          <img src="/public/logo.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
+          <img src="/logo.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
         );
     }
   }
@@ -218,7 +218,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img src="/public/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounce' : ''}`}/>
+        <img src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounce' : ''}`}/>
 
         {!permissionRequested && (
           <div className="relative">
@@ -226,7 +226,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         </div>
         )}
 
-        
+
+
         <p className="text-amber-900">Shake count: {count}</p>
 
         {isPLaying && (
