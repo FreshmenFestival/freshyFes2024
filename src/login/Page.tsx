@@ -39,8 +39,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
-  const [errorID, setErrorID] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [errorID, setErrorID] = useState("");  
 
   const handleLogin = async () => {
     try {
@@ -53,7 +52,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
         onLogin(userData);
-        setIsLoading(true);
       } else {
         setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
@@ -84,69 +82,63 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   }, []);
 
   return (
-    <div>
-      {!isLoading ? (
-        <div className="flex justify-center items-center min-h-screen bg-phone ">
-          <div className="text-amber-900 rounded-2xl  w-80">
-            <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
-            <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
-            <div className="flex flex-col font-alice mb-2">
-              <label className="block text-base">Student ID</label>
-              <input
-                type="text"
-                placeholder="67xxxxxx23"
-                value={studentId}
-                onChange={handleID}
-                onBlur={handleIDBlur}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
-            focus:outline-none focus:border-amber-900"
-              />
-              {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
-            </div>
-
-            <div className="flex flex-col mb-2 font-alice">
-              <label className="block text-base ">Name</label>
-              <input
-                type="text"
-                placeholder="ใจ่ใจ๊"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
-              />
-            </div>
-
-            <div className="flex flex-col mb-2 font-alice">
-              <label className="block text-base">Department</label>
-              <select
-                value={department}
-                onChange={(e) => setDepartment(e.target.value as Department)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
-              >
-                <option value="" disabled>
-                  Department
-                </option>
-                {getEnumValues(Department).map((dept) => (
-                  <option key={dept.key} value={dept.value}>
-                    {dept.value}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button
-              onTouchStart={handleLogin}
-              className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
-            >
-              accept
-            </button>
-            {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
-
-          </div>
-
+    <div className="flex justify-center items-center min-h-screen bg-phone ">
+      <div className="text-amber-900 rounded-2xl  w-80">
+        <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
+        <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
+        <div className="flex flex-col font-alice mb-2">
+          <label className="block text-base">Student ID</label>
+          <input
+            type="text"
+            placeholder="67xxxxxx23"
+            value={studentId}
+            onChange={handleID}
+            onBlur={handleIDBlur}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
+        focus:outline-none focus:border-amber-900"
+          />
+          {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
-      ) : (
-        <img className="animate-spin h-10 w-10" src="/progress_activity.png"></img>
-      )}
+
+        <div className="flex flex-col mb-2 font-alice">
+          <label className="block text-base ">Name</label>
+          <input
+            type="text"
+            placeholder="ใจ่ใจ๊"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
+          />
+        </div>
+
+        <div className="flex flex-col mb-2 font-alice">
+          <label className="block text-base">Department</label>
+          <select
+            value={department}
+            onChange={(e) => setDepartment(e.target.value as Department)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
+          >
+            <option value="" disabled>
+              Department
+            </option>
+            {getEnumValues(Department).map((dept) => (
+              <option key={dept.key} value={dept.value}>
+                {dept.value}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          onTouchStart={handleLogin}
+          className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
+        >
+          accept
+        </button>
+        {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+
+      </div>
+
     </div>
   );
 };
