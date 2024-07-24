@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { UserData } from "../utils/constant";
 import { db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
 
 interface DashboardProps {
@@ -18,7 +18,7 @@ interface RankedScoreData extends ScoreData {
   percentage: number;
 }
 
-const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
+const ComDashboard: React.FC<DashboardProps> = () => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -61,6 +61,7 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
         console.error("Error fetching scores:", err);
       } finally {
         setLoading(false);
+        console.log(loading);
       }
     };
 
@@ -132,6 +133,7 @@ const ComDashboard: React.FC<DashboardProps> = ({ userData }) => {
         </Bar>
 
       </BarChart>
+      <p>{error}</p>
     </div>
   );
 };
