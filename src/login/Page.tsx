@@ -126,7 +126,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
 
         <button
-          onClick={handleLogin}
+          onTouchStart={handleLogin}
           className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
         >
           Accept
