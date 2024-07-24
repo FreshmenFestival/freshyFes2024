@@ -56,7 +56,6 @@ const App = () => {
           </>
         ) : (
           <>
-          <Dashboard userData={userData} onBack={handleBack}/> 
           <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
           </>
         )
