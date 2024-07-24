@@ -141,38 +141,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   }
 
-  const imgGroup = () => {
-    switch(userData.group) {
-      case "1" :
-        return (
-          <img src="/G1.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "2" :
-        return (
-          <img src="/G2.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "3" :
-        return (
-          <img src="/G3.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "4" :
-        return (
-          <img src="/G4.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "5" :
-        return (
-          <img src="/G5.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "6" :
-        return (
-          <img src="/G6.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-      case "7" :
-        return (
-          <img src="/logo.png" className="rounded-full w-[70px] h-[70px] mb-2"/>
-        );
-    }
-  }
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -211,7 +179,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <span className="align-center justify-items-center">{imgGroup()}</span>
           <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
           <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
