@@ -33,7 +33,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           score: doc.data().score,
         }));
 
-        // ดึงคะแนนสำหรับทั้งเจ็ดกลุ่ม
         const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
         const groupedScores = allGroups.map(groupId => {
           const groupScores = scoresData.filter(score => score.group === groupId);
@@ -43,16 +42,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
 
         const totalScoreSum = groupedScores.reduce((acc, score) => acc + score.score, 0);
 
-        // คำนวณเปอร์เซ็นต์
         const scoresWithPercentage = groupedScores.map(scoreData => ({
           ...scoreData,
           percentage: totalScoreSum === 0 ? 0 : (scoreData.score / totalScoreSum) * 100
         }));
 
-        // เรียงลำดับตามคะแนนจากมากไปน้อย
         const sortedScores = scoresWithPercentage.sort((a, b) => b.score - a.score);
 
-        // เพิ่มอันดับ
         const rankedScores = sortedScores.map((scoreData, index) => ({
           ...scoreData,
           rank: index + 1
