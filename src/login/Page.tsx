@@ -85,7 +85,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <div>
-      {isLoading ? (
+      {!isLoading ? (
         <div className="flex justify-center items-center min-h-screen bg-phone ">
           <div className="text-amber-900 rounded-2xl  w-80">
             <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
