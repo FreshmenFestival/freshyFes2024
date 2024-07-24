@@ -77,6 +77,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         setIsBouncing(true);
       }
     }
+
+    event.preventDefault();
   };
 
   const handleStop = async () => {
