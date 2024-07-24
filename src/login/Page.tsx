@@ -49,11 +49,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         where("uid", "==", studentId)
       );
       const querySnapshot = await getDocs(q);
-      setIsLoading(true);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
         onLogin(userData);
+        setIsLoading(true);
       } else {
         setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
@@ -137,7 +137,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               onTouchStart={handleLogin}
               className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
             >
-              Accept
+              accept
             </button>
             {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
 
