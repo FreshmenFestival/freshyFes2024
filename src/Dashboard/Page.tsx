@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { UserData } from "../utils/constant";
 import { db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 interface DashboardProps {
   userData: UserData;
@@ -20,66 +20,76 @@ interface RankedScoreData extends ScoreData {
 
 const Dashboard: React.FC<DashboardProps> = ({ userData, onBack }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const q = query(
-          collection(db, "scores"),
-          where("group", "==", userData.group)
-        );
+        const q = collection(db, "scores");
         const querySnapshot = await getDocs(q);
         const scoresData: ScoreData[] = querySnapshot.docs.map(doc => ({
           group: doc.data().group,
           score: doc.data().score,
         }));
 
-        if (scoresData.length === 0) {
-          setScores([]);
-          return;
-        }
+        // ดึงคะแนนสำหรับทั้งเจ็ดกลุ่ม
+        const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
+        const groupedScores = allGroups.map(groupId => {
+          const groupScores = scoresData.filter(score => score.group === groupId);
+          const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
+          return { group: groupId, score: totalScore };
+        });
 
-        // Calculate the total score for all groups
-        const total = scoresData.reduce((acc, score) => acc + score.score, 0);
+        const totalScoreSum = groupedScores.reduce((acc, score) => acc + score.score, 0);
 
-        // Sort the scores in descending order and add rank and percentage
-        const rankedScoresData = scoresData
-          .sort((a, b) => b.score - a.score)
-          .map((data, index) => ({
-            ...data,
-            rank: index + 1,
-            percentage: total === 0 ? 0 : (data.score / total) * 100 // Handle division by zero
-          }));
+        // คำนวณเปอร์เซ็นต์
+        const scoresWithPercentage = groupedScores.map(scoreData => ({
+          ...scoreData,
+          percentage: totalScoreSum === 0 ? 0 : (scoreData.score / totalScoreSum) * 100
+        }));
 
-        setScores(rankedScoresData);
+        // เรียงลำดับตามคะแนนจากมากไปน้อย
+        const sortedScores = scoresWithPercentage.sort((a, b) => b.score - a.score);
+
+        // เพิ่มอันดับ
+        const rankedScores = sortedScores.map((scoreData, index) => ({
+          ...scoreData,
+          rank: index + 1
+        }));
+
+        setScores(rankedScores);
       } catch (err) {
+        setError("Error fetching scores");
         console.error("Error fetching scores:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchScores();
-  }, [userData.group]);
+  }, []);
 
   const group = (groupId: string) => {
     switch(groupId) {
-      case "1":
-        return "MonoRabian";
-      case "2":
-        return "Edenity";
-      case "3":
-        return "Tartarus";
-      case "4":
-        return "Avalon";
-      case "5":
-        return "Lyford";
-      case "6":
-        return "Atlansix";
-      case "7":
-        return "Staff";
-      default:
-        return "Unknown Group";
+      case "1": return "MonoRabian";
+      case "2": return "Edenity";
+      case "3": return "Tartarus";
+      case "4": return "Avalon";
+      case "5": return "Lyford";
+      case "6": return "Atlansix";
+      case "7": return "Staff";
+      default: return "Unknown Group";
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-phone font-prompt">
@@ -101,6 +111,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userData, onBack }) => {
             <tr>
               <th className="text-xs md:text-sm p-2 md:p-4">อันดับ</th>
               <th className="text-xs md:text-sm p-2 md:p-4">ชื่อกรุ๊ป</th>
+              {/* <th className="text-xs md:text-sm p-2 md:p-4">คะแนน</th> */}
               <th className="text-xs md:text-sm p-2 md:p-4">เปอร์เซ็นต์</th>
             </tr>
           </thead>
@@ -109,7 +120,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userData, onBack }) => {
               <tr key={index} className="border-t">
                 <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.rank}</td>
                 <td className="text-xs md:text-sm p-2 md:p-4">{group(scoreData.group)}</td>
-                <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.percentage.toFixed(0)}%</td>
+                {/* <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.score}</td> */}
+                <td className="text-xs md:text-sm p-2 md:p-4">{scoreData.percentage.toFixed(2)}%</td>
               </tr>
             ))}
           </tbody>
@@ -122,9 +134,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userData, onBack }) => {
       </button>
 
     </div>
+
   );
 };
 
 export default Dashboard;
-
-
