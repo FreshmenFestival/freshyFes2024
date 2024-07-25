@@ -41,7 +41,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
   const [checking, setChecking] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(0);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const handleLogin = async () => {
     try {
@@ -57,9 +57,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         onLogin(userData);
       } else {
         setChecking(false);
-        if (firstLoad === 0) {
-          setError("โหลดครั้งแรก");
-          setFirstLoad(1);
+        if (firstLoad) {
+          setFirstLoad(false);
         } else {
           setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
         }
