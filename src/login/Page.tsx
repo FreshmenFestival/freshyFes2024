@@ -55,7 +55,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
         onLogin(userData);
       } else {
-        setChecking(false);
         setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
     } catch (err) {
