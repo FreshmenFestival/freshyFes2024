@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { UserData } from "../utils/constant";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Cell } from 'recharts';
 
 interface DashboardProps {
   userData: UserData;
@@ -20,7 +20,6 @@ interface RankedScoreData extends ScoreData {
 
 const ComDashboard: React.FC<DashboardProps> = () => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -61,7 +60,6 @@ const ComDashboard: React.FC<DashboardProps> = () => {
         console.error("Error fetching scores:", err);
       } finally {
         setLoading(false);
-        console.log(loading);
       }
     };
 
@@ -81,8 +79,8 @@ const ComDashboard: React.FC<DashboardProps> = () => {
     }
   };
 
-  const getColor = (getGroupName: string) => {
-    switch(getGroupName) {
+  const getColor = (groupName: string) => {
+    switch(groupName) {
       case "MonoRabian": return "#F57B2D"; 
       case "Edenity": return "#056100"; 
       case "Tartarus": return "#7429A5"; 
@@ -94,51 +92,110 @@ const ComDashboard: React.FC<DashboardProps> = () => {
     }
   };
 
+  const getImageUrl = (groupName: string) => {
+    switch(groupName) {
+      case "MonoRabian": return "/G1.png"; 
+      case "Edenity": return "/G2.png"; 
+      case "Tartarus": return "/G3.png"; 
+      case "Avalon": return "/G4.png"; 
+      case "Lyford": return "/G5.png"; 
+      case "Atlansix": return "/G6.png"; 
+      case "Staff": return "/logo.png"; 
+      default: return ''; 
+    }
+  };
+
   const formattedScores = scores.map(score => ({
     ...score,
     group: getGroupName(score.group) 
   }));
 
+  const renderCustomBarLabel = (props: any) => {
+    const { x, y, width, height, index } = props;
+    const group = formattedScores[index].group;
+    const imageUrl = getImageUrl(group);
+    const percentage = formattedScores[index].percentage.toFixed(2);
+
+    if (loading) {
+      return <div className="flex justify-center items-center min-h-screen bg-phone ">
+        <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
+      </div>;
+    }
+  
+    if (error) {
+      return <div>{error}</div>;
+    }
+
+    return (
+      <g>
+        <defs>
+          <clipPath id={`clip-circle-${index}`}>
+            <circle cx={x + width + 25} cy={y + height / 2} r={20} />
+          </clipPath>
+        </defs>
+
+        <image 
+          x={x + width - 1} 
+          y={y + height / 2 - 26} 
+          width="52" 
+          height="52" 
+          href={imageUrl} 
+          clipPath={`url(#clip-circle-${index})`}
+        />
+
+        <text 
+          x={x + width + 50} 
+          y={y + height / 2 + 5} 
+          fill="#78350F" 
+          fontSize="20px"
+          fontFamily="Alice, sans-serif"
+          textAnchor="start"
+        >
+          {percentage}%
+        </text>
+      </g>
+    );
+  };
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-PC">
       <h3 className="text-center text-4xl text-amber-900 font-great mb-6"><b>Scores</b></h3>
 
-      <BarChart width={800} height={300} data={formattedScores} layout="vertical">
-
+      <BarChart width={800} height={500} data={formattedScores} layout="vertical" barCategoryGap="20%">
         <CartesianGrid strokeDasharray="3 3" stroke="#C6C6C6" />
 
         <XAxis 
-          type="number" 
-          tick={{ fill: '#000000', fontSize: '12px'  }} 
-          stroke="#000000"
+          type="number"
+          domain={[0, 100]} 
+          tick={{ fill: '#78350F', fontSize: '12px', fontFamily: "Alice, sans-serif"  }} 
+          stroke="#78350F"
         />
 
-        <YAxis type="category" 
+        <YAxis 
+          type="category" 
           dataKey="group" 
-          tick={{ fill: '#000000', fontSize: '10px'  }} 
-          stroke="#000000"
+          tick={{ fill: '#78350F', fontSize: '10px', fontFamily: "Alice, sans-serif"  }} 
+          stroke="#78350F"
         />
 
-        <Tooltip 
-          formatter={(value: number) => `${value.toFixed(2)}%`} 
-          contentStyle={{ color: '#000000', borderColor: '#000000' }} 
-        />
+        {/* <Tooltip 
+          formatter={(value: number) => `${value.toFixed(2)}%`}
+          contentStyle={{ color: '#78350F',backgroundColor: '#ffffff' , borderColor: '#78350F', fontFamily: "Alice, sans-serif" }}
+          cursor={{ fill: 'rgba(0, 0, 0, 0)' }} 
+        /> */}
 
         <Legend/>
 
-        <Bar dataKey="percentage">
+        <Bar dataKey="percentage" label={renderCustomBarLabel}>
           {formattedScores.map((score, index) => (
-            <Cell key={`cell-${index}`} fill={getColor(score.group)}/>
+            <Cell key={`cell-${index}`} fill={getColor(score.group)} />
           ))}
         </Bar>
 
       </BarChart>
-      <p>{error}</p>
+      {error && <p>{error}</p>}
     </div>
   );
 };
 
 export default ComDashboard;
-
-
-
