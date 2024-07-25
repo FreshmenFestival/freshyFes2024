@@ -136,7 +136,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <button
             className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
           >
-            <img className="animate-spin h-5 w-5 mr-3" src="/progress_white.png"></img>
+            <img className="animate-spin h-5 w-5 mr-1" src="/progress_white.png"></img>
             processing...
           </button>
         ) : (
