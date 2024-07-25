@@ -57,7 +57,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         onLogin(userData);
       } else {
         setChecking(false);
-        if (firstLoad === 0) {
+        if (firstLoad == 0) {
           setError("โหลดครั้งแรก");
           setFirstLoad(1);
         } else {
