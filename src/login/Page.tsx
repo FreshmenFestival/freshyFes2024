@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -39,7 +39,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
-  const [errorID, setErrorID] = useState("");
+  const [errorID, setErrorID] = useState("");  
 
   const handleLogin = async () => {
     try {
@@ -77,6 +77,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+  useEffect(() => {
+    handleLogin();
+  }, []);
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone ">
       <div className="text-amber-900 rounded-2xl  w-80">
@@ -91,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             onChange={handleID}
             onBlur={handleIDBlur}
             className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
-         focus:outline-none focus:border-amber-900"
+            focus:outline-none focus:border-amber-900"
           />
           {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
         </div>
@@ -126,10 +130,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
 
         <button
-          onClick={handleLogin}
+          onTouchStart={handleLogin}
           className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
         >
-          Accept
+          accept
         </button>
         {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
 
