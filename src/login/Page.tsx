@@ -81,7 +81,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   useEffect(() => {
-
+    handleLogin();
   }, []);
 
   return (
