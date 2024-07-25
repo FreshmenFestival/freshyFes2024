@@ -185,7 +185,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     <div>
       {loading ? (
         <div className="flex flex-col items-center justify-center h-screen bg-phone">
-          <img className="animate-spin h-24 w-24" src="/progress_activity.png"></img>
+          <img className="animate-ping h-24 w-24 rounded-full" src="/logo.png"></img>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
