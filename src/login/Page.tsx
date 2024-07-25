@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -41,6 +41,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
   const [checking, setChecking] = useState(false);
+  const firstLoad = useRef(true);
 
   const handleLogin = async () => {
     try {
@@ -55,7 +56,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
         onLogin(userData);
       } else {
-        setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
+        setChecking(false);
+        if (firstLoad) {
+          firstLoad.current = false;
+        } else {
+          setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
+        }
       }
     } catch (err) {
       if (err instanceof Error) {
