@@ -77,10 +77,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
-  useEffect(() => {
-    handleLogin();
-  }, []);
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone ">
       <div className="text-amber-900 rounded-2xl  w-80">

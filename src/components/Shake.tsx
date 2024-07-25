@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -37,7 +37,8 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
-  const [isBouncing, setIsBouncing] = useState(false); 
+  const [isBouncing, setIsBouncing] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
   
@@ -173,39 +174,50 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   return (
-    
-    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
-      <div className="m-4 gap-4 flex justify-end">
-        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
-          <h4 className="text-center"><b>{group()}</b> </h4>
+    <div>
+      {loading ? (
+        <img className="animate-spin h-10 w-10 flex flex-col items-center justify-center bg-phone" src="/progress_activity.png"></img>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
+          <div className="m-4 gap-4 flex justify-end">
+            <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
+              <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+              <h4 className="text-center"><b>{group()}</b> </h4>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-2">
+
+            <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+
+            <p className="text-amber-900">Shake count: {count}</p>
+            
+            {!permissionRequested && (
+              <div className="relative">
+                <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>
+                  start
+                </button>
+              </div>
+            )}
+
+            {isPLaying && (
+              <div>
+                <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
+                  stop
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className="flex flex-col items-center justify-center gap-2">
-
-        <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
-
-        <p className="text-amber-900">Shake count: {count}</p>
-        
-        {!permissionRequested && (
-          <div className="relative">
-            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>
-              start
-            </button>
-          </div>
-        )}
-
-        {isPLaying && (
-          <div>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
-              stop
-            </button>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
