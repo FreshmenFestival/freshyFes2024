@@ -99,7 +99,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
         </div>
         
 
-        <table className="w-full text-center">
+        <table className="w-full text-center mr-3">
           <thead>
             <tr>
               <th className="text-xs md:text-sm p-2 md:p-4">อันดับ</th>
