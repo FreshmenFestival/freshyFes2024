@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -57,7 +57,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         onLogin(userData);
       } else {
         setChecking(false);
-        if (firstLoad == 0) {
+        if (firstLoad === 0) {
           setError("โหลดครั้งแรก");
           setFirstLoad(1);
         } else {
