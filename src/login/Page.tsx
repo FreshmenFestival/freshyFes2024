@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -39,7 +39,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
-  const [errorID, setErrorID] = useState("");  
+  const [errorID, setErrorID] = useState("");
+  const [checking, setChecking] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -47,12 +48,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         collection(db, "memberlist"),
         where("uid", "==", studentId)
       );
+      setChecking(true);
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
         onLogin(userData);
       } else {
+        setChecking(false);
         setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
       }
     } catch (err) {
@@ -76,6 +79,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       setErrorID("");
     }
   };
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone ">
@@ -125,12 +132,21 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </select>
         </div>
 
-        <button
-          onTouchStart={handleLogin}
-          className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
-        >
-          accept
-        </button>
+        { checking ? (
+          <button
+            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
+          >
+            <img className="animate-spin h-5 w-5 mr-3" src="/progress_white.png"></img>
+            processing...
+          </button>
+        ) : (
+          <button
+            onTouchStart={handleLogin}
+            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
+          >
+            accept
+          </button>
+        )}
         {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
 
       </div>
