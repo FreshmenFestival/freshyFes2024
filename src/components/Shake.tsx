@@ -1,10 +1,9 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
-  const userAgent =
-    navigator.userAgent || navigator.vendor || (window as any).opera;
+  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
 
   if (/windows phone/i.test(userAgent)) {
     return "Windows Phone";
@@ -36,13 +35,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
-  const [isPLaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isBouncing, setIsBouncing] = useState(false); 
   const lastTickRef = useRef(new Date());
-  const lastCountRef = useRef(count);
-  
-  let lastAcceleration = 9.81;
-  let acceleration = 0;
+  const lastAccelerationRef = useRef(9.81);
 
   const handleMotion = (event: DeviceMotionEvent) => {
     const acc = event.accelerationIncludingGravity;
@@ -52,29 +48,31 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       const z = acc.z;
 
       const currentAcceleration = Math.hypot(x, y, z);
-      const delta = currentAcceleration - lastAcceleration;
-      lastAcceleration = currentAcceleration;
-      acceleration = 0.9 * acceleration + delta;
+      const delta = currentAcceleration - lastAccelerationRef.current;
+      lastAccelerationRef.current = currentAcceleration;
 
-      console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
+      console.log(`Acceleration: x=${x}, y=${y}, z=${z}, total=${delta}`);
 
-      if (acceleration > 30 && !isShaking) {
+      if (delta > 10 && !isShaking) { // Lowered the threshold to 10
         setCount((prevCount) => {
           const nowTick = new Date();
           
-          if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 100) { // Reduced the time interval to 100ms
             return prevCount;
           }
 
           const newCount = prevCount + 1;
 
           lastTickRef.current = nowTick;
-          lastCountRef.current = newCount;
           return newCount;
         });
         setIsShaking(true);
         setIsPlaying(true);
         setIsBouncing(true);
+
+        setTimeout(() => {
+          setIsShaking(false);
+        }, 100); // Reset isShaking after 100ms
       }
     }
   };
@@ -87,7 +85,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       collection(db, "scores"),
       where("group", "==", userData.group)
     );
-  
+
     try {
       const querySnapshot = await getDocs(s);
       if (!querySnapshot.empty) {
@@ -105,7 +103,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     } catch (error) {
       console.error("Error writing document: ", error);
     }
-
   };
 
   const group = () => {
@@ -141,7 +138,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   }
 
-
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
     if (mobile === "iOS") {
@@ -173,9 +169,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
-
   return (
-    
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
@@ -185,9 +179,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2">
-
-        <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
-
+        <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`} />
         <p className="text-amber-900">Shake count: {count}</p>
         
         {!permissionRequested && (
@@ -198,7 +190,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
           </div>
         )}
 
-        {isPLaying && (
+        {isPlaying && (
           <div>
             <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
               stop
@@ -208,6 +200,3 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       </div>
     </div>
   );
-};
-
-export default ShakeComponent;
