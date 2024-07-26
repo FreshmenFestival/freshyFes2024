@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -201,3 +201,5 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     </div>
   );
 }
+
+export default ShakeComponent;
