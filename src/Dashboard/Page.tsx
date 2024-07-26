@@ -80,7 +80,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen bg-phone ">
+        <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
+      </div>;
   }
 
   if (error) {
