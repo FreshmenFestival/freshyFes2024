@@ -200,3 +200,4 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       </div>
     </div>
   );
+}
