@@ -165,13 +165,16 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2 ">
-        <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
+        <div className="flex flex-col items-center justify-center gap-2" > </div>
         {!permissionRequested && (
           <div className="relative">
+            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
           <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
               alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
             <p>Shake count: {count}</p>
-        </div>
+            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
+          </div>
+          
         
         )}
 
