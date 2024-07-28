@@ -48,15 +48,21 @@ const App = () => {
 
   return (
     <div>
-      
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
-          <Dashboard onBack={handleBack}/>
+            <Dashboard onBack={handleBack} />
           </>
         ) : (
           <>
-          {isMobile? <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} /> : <ComDashboard/>}
+            {isMobile ? (
+              <ShakeComponent
+                userData={userData}
+                onShowDashboard={handleShowDashboard}
+              />
+            ) : (
+              <ComDashboard />
+            )}
           </>
         )
       ) : (
