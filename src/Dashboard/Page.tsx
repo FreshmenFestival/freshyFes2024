@@ -68,7 +68,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
 
   const group = (groupId: string) => {
     switch(groupId) {
-      case "1": return "MonoRabian";
+      case "1": return "Monorabian";
       case "2": return "Edenity";
       case "3": return "Tartarus";
       case "4": return "Avalon";
