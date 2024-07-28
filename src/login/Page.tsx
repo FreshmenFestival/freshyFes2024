@@ -97,7 +97,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <div className="text-amber-900 rounded-2xl  w-80">
           <h1 className="text-center text-4xl font-playwrite mb-2"><b>Welcome to</b></h1>
           <h1 className="text-center text-4xl mb-6 font-playwrite font-bold"><b>Yggdrasil</b></h1>
-          <div className="flex flex-col font-Ubuntu mb-2">
+          <div className="flex flex-col font-playfair mb-2">
             <label className="block text-base">Student ID</label>
             <input
               type="text"
@@ -111,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
           </div>
 
-          <div className="flex flex-col mb-2 font-alice">
+          <div className="flex flex-col mb-2 font-playfair">
             <label className="block text-base ">Name</label>
             <input
               type="text"
@@ -122,7 +122,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             />
           </div>
 
-          <div className="flex flex-col mb-2 font-alice">
+          <div className="flex flex-col mb-2 font-playfair">
             <label className="block text-base">Department</label>
             <select
               value={department}
@@ -142,7 +142,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
           <button
             onTouchStart={handleLogin}
-            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
+            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-playfair"
           >
             accept
           </button>
