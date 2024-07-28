@@ -58,7 +58,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
 
-      if (acceleration > 20 && !isShaking) {
+      if (acceleration > 15 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
           
