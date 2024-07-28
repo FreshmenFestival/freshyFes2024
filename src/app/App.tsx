@@ -52,7 +52,7 @@ const App = () => {
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
-          {isMobile ? <Dashboard userData={userData} onBack={handleBack}/> : <ComDashboard userData={userData}/>}
+          {isMobile ? <Dashboard onBack={handleBack}/> : <ComDashboard/>}
           </>
         ) : (
           <>

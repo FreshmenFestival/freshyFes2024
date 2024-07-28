@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { UserData } from "../utils/constant";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 interface DashboardProps {
-  userData: UserData;
   onBack: () => void;
 }
 
