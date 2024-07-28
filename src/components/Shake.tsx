@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -27,12 +27,20 @@ interface UserData {
   uid: string;
 }
 
-const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
+interface ShakeComponentProps {
+  userData: UserData;
+  onShowDashboard: () => void; 
+}
+
+const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const [isPLaying, setIsPlaying] = useState(false);
-
+  const [isBouncing, setIsBouncing] = useState(false); 
+  const lastTickRef = useRef(new Date());
+  const lastCountRef = useRef(count);
+  
   let lastAcceleration = 9.81;
   let acceleration = 0;
 
@@ -43,20 +51,30 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
       const y = acc.y;
       const z = acc.z;
 
-      const currentAcceleration = Math.sqrt(x * x + y * y + z * z);
+      const currentAcceleration = Math.hypot(x, y, z);
       const delta = currentAcceleration - lastAcceleration;
       lastAcceleration = currentAcceleration;
+      acceleration = 0.9 * acceleration + delta;
 
-      acceleration = 0.45 * acceleration + delta;
-
-      console.log(
-        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
-      );
+      console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
 
       if (acceleration > 15 && !isShaking) {
-        setCount((prevCount) => prevCount + 1);
+        setCount((prevCount) => {
+          const nowTick = new Date();
+          
+          if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
+            return prevCount;
+          }
+
+          const newCount = prevCount + 1;
+
+          lastTickRef.current = nowTick;
+          lastCountRef.current = newCount;
+          return newCount;
+        });
         setIsShaking(true);
-        setIsPlaying(true)
+        setIsPlaying(true);
+        setIsBouncing(true);
       }
     }
   };
@@ -83,7 +101,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
           score: count
         });
       }
-      alert("คะแนนถูกบันทึกแล้ว!");
+      onShowDashboard();
     } catch (error) {
       console.error("Error writing document: ", error);
     }
@@ -94,7 +112,7 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     switch(userData.group) {
       case "1" :
         return (
-          <span className="text-orange-500">MonoRabian</span>
+          <span className="text-orange-500">Monorabian</span>
         );
       case "2" :
         return (
@@ -118,11 +136,11 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
         );
       case "7" :
         return (
-          <span className=" " >Staff</span>
+          <span className="text-amber-900">Staff</span>
         );
     }
-
   }
+
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -155,36 +173,37 @@ const ShakeComponent: React.FC<{ userData: UserData }> = ({ userData }) => {
     }
   };
 
+
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen gap-2">
-      <div className="m-4 gap-4 ">
-        <div className="font-serif sm:col-span-2 min-h-[50px] text-4xl rounded-lg shadow bg-zinc-200 inline-block align-middle" > {userData.name} 
-          <p className="font-serif text-3xl text-center" > {group()} </p>
+    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
+      <div className="m-4 gap-4 flex justify-end">
+        <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
+          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+          <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-2 ">
-        <div className="flex flex-col items-center justify-center gap-2" > </div>
+      <div className="flex flex-col items-center justify-center gap-2">
+
+        <img key={Math.random()} src="/babyTiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+
+        <p className="text-amber-900">Shake count: {count}</p>
+        
         {!permissionRequested && (
           <div className="relative">
-            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
-          <img src="https://i.postimg.cc/q7nVS7tw/red-button-png.webp" 
-              alt="profile" className="w-40 h-40 rounded-full mx-auto  border-4 border-white " onClick={handleRequestMotion} />
-            <p>Shake count: {count}</p>
-            <div className="animate-bounce text-l " > tap <span className="uppercase">THE BUTTON</span> to start shaking</div>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchEnd={handleRequestMotion}>
+              Start
+            </button>
           </div>
-          
-        
         )}
 
         {isPLaying && (
-          <button
-          className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none"
-          onClick={handleStop}
-        >
-          Stop
-        </button>
+          <div>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchEnd={handleStop}>
+              Stop
+            </button>
+          </div>
         )}
       </div>
     </div>

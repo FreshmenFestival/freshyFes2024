@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import Login from "../login/Page";
-import ShakeComponent from "../components/Shake";
 import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
+import Dashboard from "../Dashboard/Page";
+import ShakeComponent from "../components/Shake";
+import ComDashboard from "../comDashboard/Page";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -33,12 +36,30 @@ const App = () => {
     setIsAuthenticated(true);
   };
 
+  const handleShowDashboard = () => {
+    setShowDashboard(true);
+  };
+
+  const handleBack = () => {
+    setShowDashboard(false);
+  };
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   return (
     <div>
+      
       {isAuthenticated && userData ? (
-        <div className="text-center">
-          <ShakeComponent userData={userData} />
-        </div>
+        showDashboard ? (
+          <>
+          {isMobile ? <Dashboard onBack={handleBack}/> : <ComDashboard/>}
+          </>
+        ) : (
+          <>
+          
+          <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
+          </>
+        )
       ) : (
         <Login onLogin={handleLogin} />
       )}
@@ -47,3 +68,6 @@ const App = () => {
 };
 
 export default App;
+
+
+
