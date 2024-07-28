@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { UserData } from "../utils/constant";
+import { useEffect, useState } from 'react';
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Cell } from 'recharts';
-
-interface DashboardProps {
-  userData: UserData;
-}
 
 interface ScoreData {
   group: string;
@@ -18,7 +13,7 @@ interface RankedScoreData extends ScoreData {
   percentage: number;
 }
 
-const ComDashboard: React.FC<DashboardProps> = () => {
+const ComDashboard = () => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +63,7 @@ const ComDashboard: React.FC<DashboardProps> = () => {
 
   const getGroupName = (groupId: string) => {
     switch(groupId) {
-      case "1": return "MonoRabian";
+      case "1": return "Monorabian";
       case "2": return "Edenity";
       case "3": return "Tartarus";
       case "4": return "Avalon";
@@ -81,7 +76,7 @@ const ComDashboard: React.FC<DashboardProps> = () => {
 
   const getColor = (groupName: string) => {
     switch(groupName) {
-      case "MonoRabian": return "#F57B2D"; 
+      case "Monorabian": return "#F57B2D"; 
       case "Edenity": return "#056100"; 
       case "Tartarus": return "#7429A5"; 
       case "Avalon": return "#FF9ECA"; 
@@ -94,7 +89,7 @@ const ComDashboard: React.FC<DashboardProps> = () => {
 
   const getImageUrl = (groupName: string) => {
     switch(groupName) {
-      case "MonoRabian": return "/G1.png"; 
+      case "Monorabian": return "/G1.png"; 
       case "Edenity": return "/G2.png"; 
       case "Tartarus": return "/G3.png"; 
       case "Avalon": return "/G4.png"; 

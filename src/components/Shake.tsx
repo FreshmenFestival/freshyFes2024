@@ -112,7 +112,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     switch(userData.group) {
       case "1" :
         return (
-          <span className="text-orange-500">MonoRabian</span>
+          <span className="text-orange-500">Monorabian</span>
         );
       case "2" :
         return (
