@@ -184,7 +184,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         
         {!permissionRequested && (
           <div className="relative">
-            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onClick={handleRequestMotion}>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchStart={handleRequestMotion}>
               start
             </button>
           </div>
@@ -192,7 +192,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPlaying && (
           <div>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onClick={handleStop}>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchStart={handleStop}>
               stop
             </button>
           </div>
