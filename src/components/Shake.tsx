@@ -141,6 +141,18 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   }
 
+  const evoImg = () => {
+    if(count<50){
+      return "/gift2.png"
+    }else if(count<300){
+      return "/tiger.png"
+    }else if(count<700){
+      return "/tiger.png"
+    }else{
+      return "/tiger.png"
+    }
+  }
+
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -156,6 +168,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
+            alert("permission is true")
           } else {
             alert("Permission not granted");
           }
@@ -186,7 +199,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
         <p className="text-amber-900">Shake count: {count}</p>
         
