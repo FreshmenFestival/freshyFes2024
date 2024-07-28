@@ -145,11 +145,11 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     if(count<50){
       return "/gift2.png"
     }else if(count<300){
-      return "/tiger.png"
+      return "/babyTiger.png"
     }else if(count<700){
-      return "/tiger.png"
+      return "/Tiger2.png"
     }else{
-      return "/tiger.png"
+      return "/Tiger3.png"
     }
   }
 
@@ -189,7 +189,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
+    <div className="flex flex-col items-center justify-center h-screen bg-phone bg-contain font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
           <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>

@@ -112,7 +112,7 @@ const ComDashboard = () => {
     const percentage = formattedScores[index].percentage.toFixed(2);
 
     if (loading) {
-      return <div className="flex justify-center items-center min-h-screen bg-phone ">
+      return <div className="flex justify-center items-center min-h-screen bg-PC bg-cover">
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       </div>;
     }
@@ -153,8 +153,8 @@ const ComDashboard = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-PC">
-      <h3 className="text-center text-4xl text-amber-900 font-great mb-6"><b>Scores</b></h3>
+    <div className="flex flex-col justify-center items-center max-w-screen min-h-screen bg-PC">
+      <h3 className="text-center text-4xl text-amber-900 font-great mt-6"><b>Scores</b></h3>
 
       <BarChart width={800} height={500} data={formattedScores} layout="vertical" barCategoryGap="20%">
         <CartesianGrid strokeDasharray="3 3" stroke="#C6C6C6" />

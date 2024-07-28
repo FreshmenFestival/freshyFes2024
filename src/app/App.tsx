@@ -52,12 +52,12 @@ const App = () => {
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
-          {isMobile ? <Dashboard onBack={handleBack}/> : <ComDashboard/>}
+          <Dashboard onBack={handleBack}/>
           </>
         ) : (
           <>
+          {isMobile? <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} /> : <ComDashboard/>}
           
-          <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
           </>
         )
       ) : (
