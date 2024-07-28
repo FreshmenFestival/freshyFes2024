@@ -194,15 +194,15 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         {!permissionRequested && (
           <div className="relative">
             <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchEnd={handleRequestMotion}>
-              start
+              Start
             </button>
           </div>
         )}
 
         {isPLaying && (
           <div>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchStart={handleStop}>
-              stop
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchEnd={handleStop}>
+              Stop
             </button>
           </div>
         )}

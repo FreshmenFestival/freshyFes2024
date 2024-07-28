@@ -3,22 +3,22 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
 enum Department {
-  MATHCOM = "ภาคคณิตศาสตร์และวิทยาการคอมพิวเตอร์",
-  MARINE = "ภาควิทยาศาสตร์ทางทะเล",
-  CHEM = "ภาคเคมี",
-  CHEMTECH = "ภาคเคมีเทคนิค",
-  BIO = "ภาคชีววิทยา",
-  BIOCHEM = "ภาคชีวเคมี",
-  BSAC = "ภาคเคมีประยุกต์",
-  BBTECH = "ภาคเทคโนโลยีชีวภาพ",
-  FOODTECH = "ภาคเทคโนโลยีทางอาหาร",
-  MATSCI = "ภาควัสดุศาสตร์",
-  PHYSICS = "ภาคฟิสิกส์",
-  BOTGEN = "ภาคพฤกษศาสตร์",
-  MICROBIO = "ภาคจุลชีววิทยา",
-  PHOTO = "ภาควิทยาศาสตร์ทางภาพถ่าย",
-  GEO = "ภาคธรณีวิทยา",
-  ENVI = "ภาควิทยาศาสตร์สิ่งแวดล้อม",
+  MATHCOM = "ภาควิชาคณิตศาสตร์และวิทยาการคอมพิวเตอร์",
+  MARINE = "ภาควิชาวิทยาศาสตร์ทางทะเล",
+  CHEM = "ภาควิชาเคมี",
+  CHEMTECH = "ภาควิชาเคมีเทคนิค",
+  BIO = "ภาควิชาชีววิทยา",
+  BIOCHEM = "ภาควิชาชีวเคมี",
+  BSAC = "หลักสูตรเคมีประยุกต์ (BSAC)",
+  BBTECH = "หลักสูตรเทคโนโลยีชีวภาพ (BBTECH)",
+  FOODTECH = "ภาควิชาเทคโนโลยีทางอาหาร",
+  MATSCI = "ภาควิชาวัสดุศาสตร์",
+  PHYSICS = "ภาควิชาฟิสิกส์",
+  BOTGEN = "ภาควิชาพฤกษศาสตร์",
+  MICROBIO = "ภาควิชาจุลชีววิทยา",
+  PHOTO = "ภาควิชาวิทยาศาสตร์ทางภาพถ่าย",
+  GEO = "ภาควิชาธรณีวิทยา",
+  ENVI = "ภาควิชาวิทยาศาสตร์สิ่งแวดล้อม",
 }
 
 type DepartmentKey = keyof typeof Department;
@@ -60,7 +60,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         if (firstLoad) {
           setFirstLoad(false);
         } else {
-          setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
+          setError("Noppo! ! ! Try again ;P ");
         }
       }
     } catch (err) {
@@ -90,14 +90,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-phone ">
+    <div className="flex justify-center items-center min-h-screen bg-phone bg-contain ">
       { checking ? (
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
-          <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
-          <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
-          <div className="flex flex-col font-alice mb-2">
+          <h1 className="text-center text-2xl font-playwrite mb-2"><b>Welcome to </b></h1>
+          <h1 className="text-center text-4xl mb-6 font-playwrite font-bold"><b>Yggdrasil</b></h1>
+          <div className="flex flex-col font-playfair mb-2">
             <label className="block text-base">Student ID</label>
             <input
               type="text"
@@ -111,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
           </div>
 
-          <div className="flex flex-col mb-2 font-alice">
+          <div className="flex flex-col mb-2 font-playfair">
             <label className="block text-base ">Name</label>
             <input
               type="text"
@@ -122,7 +122,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             />
           </div>
 
-          <div className="flex flex-col mb-2 font-alice">
+          <div className="flex flex-col mb-2 font-playfair">
             <label className="block text-base">Department</label>
             <select
               value={department}
@@ -142,11 +142,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
           <button
             onTouchStart={handleLogin}
-            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-alice"
+            className="mt-4 w-full bg-amber-900 text-white py-2 rounded-md hover:bg-amber-700 transition duration-300 font-playfair"
           >
-            accept
+            Accept
           </button>
-          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+          {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
 
         </div>
       )}

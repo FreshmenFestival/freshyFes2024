@@ -11,7 +11,11 @@ export default {
         "alex": ["'Alex Brush'", "cursive"],
         "alice": ["'Alice'", "serif"],
         "great": ["'Great Vibes'","cursive"],
-        "prompt": ["'Prompt'"]
+        "prompt": ["'Prompt'"],
+        "playwrite": ["'Playwrite AR'","cursive"],
+        "noto": ["'Noto Sans JP'","sans-serif"],
+        "playfair": ["'Playfair Display'","serif"]
+
       },
       animation: {
         'pingonce': 'ping 1s cubic-bezier(0, 0, 0.2, 1)',
