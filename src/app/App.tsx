@@ -56,6 +56,7 @@ const App = () => {
           </>
         ) : (
           <>
+          
           <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
           </>
         )
