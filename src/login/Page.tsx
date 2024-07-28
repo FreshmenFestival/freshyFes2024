@@ -95,9 +95,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
-          <h1 className="text-center text-4xl font-great mb-2"><b>welcome to</b></h1>
-          <h1 className="text-center text-5xl mb-6 font-great"><b>Yggdrasil</b></h1>
-          <div className="flex flex-col font-alice mb-2">
+          <h1 className="text-center text-4xl font-playwrite mb-2"><b>Welcome to</b></h1>
+          <h1 className="text-center text-4xl mb-6 font-playwrite font-bold"><b>Yggdrasil</b></h1>
+          <div className="flex flex-col font-Ubuntu mb-2">
             <label className="block text-base">Student ID</label>
             <input
               type="text"
