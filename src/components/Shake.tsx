@@ -58,7 +58,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
 
-      if (acceleration > 20 && !isShaking) {
+      if (acceleration > 15 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
           
@@ -112,7 +112,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     switch(userData.group) {
       case "1" :
         return (
-          <span className="text-orange-500">MonoRabian</span>
+          <span className="text-orange-500">Monorabian</span>
         );
       case "2" :
         return (
@@ -192,7 +192,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         
         {!permissionRequested && (
           <div className="relative">
-            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchStart={handleRequestMotion}>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchEnd={handleRequestMotion}>
               start
             </button>
           </div>
@@ -200,7 +200,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         {isPLaying && (
           <div>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchStart={handleStop}>
+            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchEnd={handleStop}>
               stop
             </button>
           </div>
