@@ -96,7 +96,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
           <h1 className="text-center text-3xl font-alice mb-2"><b>Welcome to</b></h1>
-          <h1 className="text-center text-2xl font-alice mb-2"><b>Vidya Freshmen Festival</b></h1>
           <h1 className="text-center text-3xl font-alice mb-2"><b>The Myths of Yggdrasil</b></h1>
           <div className="flex flex-col font-playfair mb-2">
             <label className="mt-4 block text-base">Student ID</label>
