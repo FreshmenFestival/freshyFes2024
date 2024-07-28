@@ -168,7 +168,7 @@ const ComDashboard = () => {
 
         <YAxis 
           type="category" 
-          dataKey="group" 
+          dataKey="none"
           tick={{ fill: '#78350F', fontSize: '10px', fontFamily: "Alice, sans-serif"  }} 
           stroke="#78350F"
         />
