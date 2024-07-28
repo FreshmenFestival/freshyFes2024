@@ -60,7 +60,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         if (firstLoad) {
           setFirstLoad(false);
         } else {
-          setError("ไม่พบข้อมูล กรุณาลองอีกครั้ง");
+          setError("Noppo! ! ! Try again ;P ");
         }
       }
     } catch (err) {
@@ -142,11 +142,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
           <button
             onTouchStart={handleLogin}
-            className="w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-playfair"
+            className="mt-4 w-full bg-yellow-700 text-white py-2 rounded-md hover:bg-amber-900 transition duration-300 font-playfair"
           >
             accept
           </button>
-          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+          {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
 
         </div>
       )}
