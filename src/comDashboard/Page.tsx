@@ -112,7 +112,7 @@ const ComDashboard = () => {
     const percentage = formattedScores[index].percentage.toFixed(2);
 
     if (loading) {
-      return <div className="flex justify-center items-center min-h-screen bg-PC bg-cover">
+      return <div className="flex justify-center items-center min-h-screen bg-PC bg-contain">
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       </div>;
     }

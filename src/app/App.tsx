@@ -57,7 +57,6 @@ const App = () => {
         ) : (
           <>
           {isMobile? <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} /> : <ComDashboard/>}
-          
           </>
         )
       ) : (
