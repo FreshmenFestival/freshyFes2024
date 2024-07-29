@@ -199,7 +199,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img key={Math.random()} src={evoImg()} className={`h-[150px] touch-action: none ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        <img key={Math.random()} src={evoImg()} className={`h-[150px] touch-none ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
         <p className="text-amber-900">Shake count: {count}</p>
         
