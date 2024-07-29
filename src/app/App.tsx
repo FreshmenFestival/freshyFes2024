@@ -4,7 +4,6 @@ import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
 import Dashboard from "../Dashboard/Page";
 import ShakeComponent from "../components/Shake";
-import ComDashboard from "../comDashboard/Page";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -44,20 +43,17 @@ const App = () => {
     setShowDashboard(false);
   };
 
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   return (
     <div>
-      
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
-          {isMobile ? <Dashboard onBack={handleBack}/> : <ComDashboard/>}
+            <Dashboard onBack={handleBack} />
           </>
         ) : (
           <>
-          
-          <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard} />
+            <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard}/>
           </>
         )
       ) : (

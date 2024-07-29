@@ -142,6 +142,18 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   }
 
+  const evoImg = () => {
+    if(count<50){
+      return "/gift2.png"
+    }else if(count<300){
+      return "/babyTiger.png"
+    }else if(count<700){
+      return "/Tiger2.png"
+    }else{
+      return "/Tiger3.png"
+    }
+  }
+
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -157,6 +169,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
+            alert("permission is true")
           } else {
             alert("Permission not granted");
           }
@@ -177,7 +190,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
+    <div className="flex flex-col items-center justify-center h-screen bg-phone bg-contain font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
           <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
@@ -187,7 +200,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img key={Math.random()} src="/tiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
         <p className="text-amber-900">Shake count: {count}</p>
         
