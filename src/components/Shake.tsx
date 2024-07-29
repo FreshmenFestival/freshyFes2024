@@ -168,7 +168,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
-            alert("permission is true")
           } else {
             alert("Permission not granted");
           }
