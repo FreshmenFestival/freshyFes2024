@@ -22,7 +22,7 @@ export const createToken = async (uid: string, group: string, name: string, nick
 export const decodeToken = async (token: string): Promise<UserData> => {
   try {
     const { payload } = await jwtVerify(token, SECRET_KEY);
-    const userData = payload as unknown as UserData; // Ensure the payload matches the UserData type
+    const userData = payload as unknown as UserData;
     return userData;
   } catch (error) {
     console.error("Invalid or expired token:", error);

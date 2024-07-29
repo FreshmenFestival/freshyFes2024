@@ -10,7 +10,6 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showDashboard, setShowDashboard] = useState(false);
-  const [nickName, setNickName] = useState("");
   const [pdpaAccepted, setPdpaAccepted] = useState(false); 
 
   useEffect(() => {
@@ -21,6 +20,7 @@ const App = () => {
           const decoded = await decodeToken(token);
           setUserData(decoded);
           setIsAuthenticated(true);
+          setPdpaAccepted(true);
         } catch (err) {
           console.error("Token verification failed:", err);
           localStorage.removeItem("token");
@@ -36,7 +36,7 @@ const App = () => {
     localStorage.setItem("token", token);
     setUserData(data);
     setIsAuthenticated(true);
-    setNickName(nickName);
+    localStorage.setItem("nickname",nickName);
   };
 
   const handleAcceptPDPA = () => {
@@ -61,7 +61,6 @@ const App = () => {
         ) : pdpaAccepted ? (
           <ShakeComponent
             userData={userData}
-            nickName={nickName}
             onShowDashboard={handleShowDashboard}
           />
         ) : (
