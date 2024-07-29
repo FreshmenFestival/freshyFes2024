@@ -13,7 +13,7 @@ export const createToken = async (uid: string, group: string, name: string, nick
 
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("1hr")
+    .setExpirationTime("1d")
     .sign(SECRET_KEY);
 
   return token;

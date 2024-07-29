@@ -169,7 +169,6 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
-            alert("permission is true")
           } else {
             alert("Permission not granted");
           }
@@ -202,7 +201,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
 
         <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
-        <p className="text-amber-900">Shake count: {count}</p>
+        <h2 className="text-amber-900"><b>Shake count: {count}</b></h2>
         
         {!permissionRequested && (
           <div className="relative">
