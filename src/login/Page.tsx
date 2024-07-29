@@ -106,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               onChange={handleID}
               onBlur={handleIDBlur}
               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
-              focus:outline-none focus:border-amber-900 touch-none"
+              focus:outline-none focus:border-amber-900"
             />
             {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
           </div>
@@ -118,7 +118,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               placeholder="ใจ่ใจ๊"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900 touch-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             />
           </div>
 
@@ -127,7 +127,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <select
               value={department}
               onChange={(e) => setDepartment(e.target.value as Department)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900 touch-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             >
               <option value="" disabled>
                 Department
