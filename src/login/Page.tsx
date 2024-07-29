@@ -31,12 +31,12 @@ const getEnumValues = (enumObj: typeof Department) => {
 };
 
 interface LoginProps {
-  onLogin: (data: { uid: string; group: string; name:string; }) => void;
+  onLogin: (data: { uid: string; group: string; name:string; },nickName:string) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [studentId, setStudentId] = useState("");
-  const [name, setName] = useState("");
+  const [nickName, setName] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
-        onLogin(userData);
+        onLogin(userData,nickName);
       } else {
         setChecking(false);
         if (firstLoad) {
@@ -116,7 +116,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <input
               type="text"
               placeholder="ใจ่ใจ๊"
-              value={name}
+              value={nickName}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             />

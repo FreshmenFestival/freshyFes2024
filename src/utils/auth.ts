@@ -3,16 +3,17 @@ import { UserData } from "./constant";
 
 const SECRET_KEY = new TextEncoder().encode(import.meta.env.VITE_SECRET_KEY);
 
-export const createToken = async (uid: string, group: string, name: string) => {
+export const createToken = async (uid: string, group: string, name: string, nickName: string) => {
   const payload = {
     uid,
     group,
     name,
+    nickName
   };
 
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("2hr")
+    .setExpirationTime("1hr")
     .sign(SECRET_KEY);
 
   return token;

@@ -30,9 +30,10 @@ interface UserData {
 interface ShakeComponentProps {
   userData: UserData;
   onShowDashboard: () => void; 
+  nickName : string;
 }
 
-const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard }) => {
+const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard,nickName }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
@@ -192,7 +193,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     <div className="flex flex-col items-center justify-center h-screen bg-phone bg-contain font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+          <h3 className="text-amber-900 font-prompt"><b>{nickName}</b></h3>
           <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
