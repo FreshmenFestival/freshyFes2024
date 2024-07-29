@@ -45,6 +45,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
+    event.preventDefault();
     const acc = event.accelerationIncludingGravity;
     if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
       const x = acc.x;
@@ -168,6 +169,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
+            alert("Permission is true");
           } else {
             alert("Permission not granted");
           }
