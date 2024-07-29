@@ -45,6 +45,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   let acceleration = 0;
 
   const handleMotion = (event: DeviceMotionEvent) => {
+    event.preventDefault();
     const acc = event.accelerationIncludingGravity;
     if (acc && acc.x !== null && acc.y !== null && acc.z !== null) {
       const x = acc.x;
