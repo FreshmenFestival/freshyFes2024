@@ -1,5 +1,12 @@
-import { collection, getDocs, query, where, updateDoc, addDoc } from "firebase/firestore";
-import { useState, useRef } from "react";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  addDoc,
+} from "firebase/firestore";
+import { useState, useRef, useEffect } from "react";
 import { db } from "../firebase";
 
 const getMobileOperatingSystem = () => {
@@ -29,18 +36,21 @@ interface UserData {
 
 interface ShakeComponentProps {
   userData: UserData;
-  onShowDashboard: () => void; 
+  onShowDashboard: () => void;
 }
 
-const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboard }) => {
+const ShakeComponent: React.FC<ShakeComponentProps> = ({
+  userData,
+  onShowDashboard,
+}) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [permissionRequested, setPermissionRequested] = useState(false);
-  const [isPLaying, setIsPlaying] = useState(false);
-  const [isBouncing, setIsBouncing] = useState(false); 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isBouncing, setIsBouncing] = useState(false);
   const lastTickRef = useRef(new Date());
   const lastCountRef = useRef(count);
-  
+
   let lastAcceleration = 9.81;
   let acceleration = 0;
 
@@ -57,12 +67,14 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       lastAcceleration = currentAcceleration;
       acceleration = 0.9 * acceleration + delta;
 
-      console.log("Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}");
+      console.log(
+        `Acceleration: x=${x}, y=${y}, z=${z}, total=${acceleration}`
+      );
 
       if (acceleration > 15 && !isShaking) {
         setCount((prevCount) => {
           const nowTick = new Date();
-          
+
           if (nowTick.getTime() - lastTickRef.current.getTime() < 200) {
             return prevCount;
           }
@@ -88,7 +100,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       collection(db, "scores"),
       where("group", "==", userData.group)
     );
-  
+
     try {
       const querySnapshot = await getDocs(s);
       if (!querySnapshot.empty) {
@@ -99,61 +111,45 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
       } else {
         await addDoc(collection(db, "scores"), {
           group: userData.group,
-          score: count
+          score: count,
         });
       }
       onShowDashboard();
     } catch (error) {
       console.error("Error writing document: ", error);
     }
-
   };
 
   const group = () => {
-    switch(userData.group) {
-      case "1" :
-        return (
-          <span className="text-orange-500">Monorabian</span>
-        );
-      case "2" :
-        return (
-          <span className="text-green-600">Edenity</span>
-        );
-      case "3" :
-        return (
-          <span className="text-purple-600">Tartarus</span>
-        );
-      case "4" :
-        return (
-          <span className="text-pink-500">Avalon</span>
-        );
-      case "5" :
-        return (
-          <span className="text-yellow-800">Lyford</span>
-        );
-      case "6" :
-        return (
-          <span className="text-blue-500">Atlansix</span>
-        );
-      case "7" :
-        return (
-          <span className="text-amber-900">Staff</span>
-        );
+    switch (userData.group) {
+      case "1":
+        return <span className="text-orange-500">Monorabian</span>;
+      case "2":
+        return <span className="text-green-600">Edenity</span>;
+      case "3":
+        return <span className="text-purple-600">Tartarus</span>;
+      case "4":
+        return <span className="text-pink-500">Avalon</span>;
+      case "5":
+        return <span className="text-yellow-800">Lyford</span>;
+      case "6":
+        return <span className="text-blue-500">Atlansix</span>;
+      case "7":
+        return <span className="text-amber-900">Staff</span>;
     }
-  }
+  };
 
   const evoImg = () => {
-    if(count<50){
-      return "/gift2.png"
-    }else if(count<300){
-      return "/babyTiger.png"
-    }else if(count<700){
-      return "/Tiger2.png"
-    }else{
-      return "/Tiger3.png"
+    if (count < 50) {
+      return "/gift2.png";
+    } else if (count < 300) {
+      return "/babyTiger.png";
+    } else if (count < 700) {
+      return "/Tiger2.png";
+    } else {
+      return "/Tiger3.png";
     }
-  }
-
+  };
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
@@ -169,12 +165,12 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
               handleMotion as EventListener
             );
             setPermissionRequested(true);
-            alert("permission is true")
+            alert("Permission granted");
           } else {
             alert("Permission not granted");
           }
         } catch (error) {
-          alert("Error requesting DeviceMotion permission:" + error);
+          alert("Error requesting DeviceMotion permission: " + error);
         }
       } else {
         alert(
@@ -187,34 +183,56 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
+  useEffect(() => {
+    const preventShakeUndo = (event: Event) => {
+      event.preventDefault();
+    };
+
+    window.addEventListener("shake", preventShakeUndo, false);
+
+    return () => {
+      window.removeEventListener("shake", preventShakeUndo, false);
+    };
+  }, []);
 
   return (
-    
     <div className="flex flex-col items-center justify-center h-screen bg-phone bg-contain font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
-          <h4 className="text-center"><b>{group()}</b> </h4>
+          <h3 className="text-amber-900 font-prompt">
+            <b>{userData.name}</b>
+          </h3>
+          <h4 className="text-center">
+            <b>{group()}</b>{" "}
+          </h4>
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2">
-
-        <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
-
+        <img
+          key={Math.random()}
+          src={evoImg()}
+          className={`h-[150px] ${isBouncing ? "animate-bounceonce" : ""}`}
+        />
         <p className="text-amber-900">Shake count: {count}</p>
-        
+
         {!permissionRequested && (
           <div className="relative">
-            <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none" onTouchEnd={handleRequestMotion}>
+            <button
+              className="mt-4 px-6 py-2 bg-green-500 text-white rounded-full focus:outline-none"
+              onTouchEnd={handleRequestMotion}
+            >
               Start
             </button>
           </div>
         )}
 
-        {isPLaying && (
+        {isPlaying && (
           <div>
-            <button className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none" onTouchEnd={handleStop}>
+            <button
+              className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none"
+              onTouchEnd={handleStop}
+            >
               Stop
             </button>
           </div>
