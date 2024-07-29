@@ -40,6 +40,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
+  const [errorNN, setErrorNN] = useState("");
   const [checking, setChecking] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
@@ -85,6 +86,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+  const handleNNBlur = () => {
+    if (nickName.length === 0) {
+      setErrorNN("กลับมากรอกชื่อก่อนสิ");
+      setName("");
+    } else {
+      setErrorNN("");
+    }
+  };
+
+  const isButtonDisabled = () => {
+    return !errorID || !errorNN
+  };
+
   useEffect(() => {
     handleLogin();
   }, []);
@@ -118,8 +132,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               placeholder="ใจ่ใจ๊"
               value={nickName}
               onChange={(e) => setName(e.target.value)}
+              onBlur={handleNNBlur}
               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             />
+            {errorNN && <p className="text-red-500 text-sm">{errorNN}</p>}
           </div>
 
           <div className="flex flex-col mb-2 font-playfair">
@@ -139,9 +155,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               ))}
             </select>
           </div>
-
           <button
             onTouchStart={handleLogin}
+            disabled={isButtonDisabled()}
             className="mt-4 w-full bg-amber-900 text-white py-2 rounded-md hover:bg-amber-700 transition duration-300 font-playfair"
           >
             Accept
