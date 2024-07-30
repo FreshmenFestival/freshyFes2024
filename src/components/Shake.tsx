@@ -144,27 +144,27 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   const evoImg = () => {
     if(count<20){
       return "/gift2.png"
-    }else if(count<40){
-      return "/m1.png"
     }else if(count<60){
-      return "/m2.png"
-    }else if(count<90){
-      return "/m3.png"
+      return "/m1.png"
     }else if(count<127){
-      return "/m4.png"
-    }else if(count<200){
-      return "/m5.png"
-    }else if(count<240){
-      return "/m6.png"
-    }else if(count<300){
-      return "/m7.png"
+      return "/m2.png"
+    }else if(count<250){
+      return "/m3.png"
     }else if(count<320){
-      return "/m8.png"
+      return "/m4.png"
     }else if(count<400){
+      return "/m5.png"
+    }else if(count<470){
+      return "/m6.png"
+    }else if(count<520){
+      return "/m7.png"
+    }else if(count<580){
+      return "/m8.png"
+    }else if(count<620){
       return "/m9.png"
-    }else if(count<440){
+    }else if(count<670){
       return "/m10.png"
-    }else if(count<500){
+    }else if(count<700){
       return "/m11.png"
     }else{
       return "/m12.png"
@@ -209,7 +209,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{userData.name}</b></h3>
+          <h3 className="text-amber-900 font-prompt"><b>{evoImg()}</b></h3>
           <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
