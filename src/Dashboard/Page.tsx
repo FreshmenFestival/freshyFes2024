@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { useCookies } from "react-cookie";
 
 interface DashboardProps {
   onBack: () => void;
@@ -20,52 +21,63 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(['scoresData']);
 
-  useEffect(() => {
-    const fetchScores = async () => {
-      try {
-        const q = collection(db, "scores");
-        const querySnapshot = await getDocs(q);
-        const scoresData: ScoreData[] = querySnapshot.docs.map(doc => ({
-          group: doc.data().group,
-          score: doc.data().score,
-        }));
+  const fetchScores = async () => {
+    try {
+      const q = collection(db, "scores");
+      const querySnapshot = await getDocs(q);
+      const scoresData: ScoreData[] = querySnapshot.docs.map(doc => ({
+        group: doc.data().group,
+        score: doc.data().score,
+      }));
 
-        console.log("Score data : ",scoresData);
+      console.log("Score data : ",scoresData);
 
-        const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
-        const groupedScores = allGroups.map(groupId => {
-          console.log("ID : ", groupId);
-          const groupScores = scoresData.filter(score => score.group === groupId);
-          const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
-          return { group: groupId, score: totalScore };
-        });
+      const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
+      const groupedScores = allGroups.map(groupId => {
+        console.log("ID : ", groupId);
+        const groupScores = scoresData.filter(score => score.group === groupId);
+        const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
+        return { group: groupId, score: totalScore };
+      });
 
-        const totalScoreSum = groupedScores.reduce((acc, score) => acc + score.score, 0);
+      const totalScoreSum = groupedScores.reduce((acc, score) => acc + score.score, 0);
 
-        const scoresWithPercentage = groupedScores.map(scoreData => ({
-          ...scoreData,
-          percentage: totalScoreSum === 0 ? 0 : (scoreData.score / totalScoreSum) * 100
-        }));
+      const scoresWithPercentage = groupedScores.map(scoreData => ({
+        ...scoreData,
+        percentage: totalScoreSum === 0 ? 0 : (scoreData.score / totalScoreSum) * 100
+      }));
 
-        const sortedScores = scoresWithPercentage.sort((a, b) => b.score - a.score);
+      const sortedScores = scoresWithPercentage.sort((a, b) => b.score - a.score);
 
-        const rankedScores = sortedScores.map((scoreData, index) => ({
-          ...scoreData,
-          rank: index + 1
-        }));
+      const rankedScores = sortedScores.map((scoreData, index) => ({
+        ...scoreData,
+        rank: index + 1
+      }));
 
-        setScores(rankedScores);
-      } catch (err) {
-        setError("Error fetching scores");
-        console.error("Error fetching scores:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setScores(rankedScores);
+      setCookie('scoresData', rankedScores, { path: '/', expires: new Date(Date.now() + 10 * 60  * 1000) });
+    } catch (err) {
+      setError("Error fetching scores");
+      console.error("Error fetching scores:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchScores();
-  }, []);
+  const initializeScores = () => {
+    if (cookies.scoresData) {
+      setScores(cookies.scoresData);
+      setLoading(false);
+    } else {
+      fetchScores();
+    }
+  };
+
+  useState(() => {
+    initializeScores();
+  });
 
   const group = (groupId: string) => {
     switch(groupId) {
