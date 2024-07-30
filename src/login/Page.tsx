@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       );
       setChecking(true);
       const querySnapshot = await getDocs(q);
-      alert(querySnapshot.docs[0].toString())
+      alert(querySnapshot.docs)
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as {
