@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -45,6 +45,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [errorID, setErrorID] = useState("");
   const [errorNN, setErrorNN] = useState("");
   const [checking, setChecking] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const handleLogin = async () => {
     try {
@@ -63,17 +64,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         };
         onLogin(userData, nickName);
       } else {
-        setError("No user found with this ID.");
+        setChecking(false);
+        if (firstLoad) {
+          setFirstLoad(false);
+        } else {
+          setError("Noppo! ! ! Try again ;P ");
+        }
       }
     } catch (err) {
-      console.error("Error during login:", err);
       if (err instanceof Error) {
         setError("Error checking credentials: " + err.message);
       } else {
         setError("An unknown error occurred.");
       }
-    } finally {
-      setChecking(false);
     }
   };
 
@@ -100,26 +103,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   const isButtonDisabled = () => {
-    return (
-      studentId.length !== 10 ||
-      nickName.length === 0 ||
-      department === "" ||
-      checking ||
-      errorID !== "" ||
-      errorNN !== ""
-    );
+    return !errorID || !errorNN;
   };
 
+  useEffect(() => {
+    handleLogin();
+  }, []);
+
   return (
-    <div className="flex justify-center items-center h-screen bg-phone bg-contain">
+    <div className="flex justify-center items-center h-screen bg-phone bg-contain ">
       {checking ? (
-        <img
-          className="animate-spin h-18 w-18"
-          src="/progress_amber.png"
-          alt="Loading"
-        />
+        <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (
-        <div className="text-amber-900 rounded-2xl w-80">
+        <div className="text-amber-900 rounded-2xl  w-80">
           <h1 className="text-center text-3xl font-alice mb-2">
             <b>Welcome to</b>
           </h1>
@@ -134,13 +130,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               value={studentId}
               onChange={handleID}
               onBlur={handleIDBlur}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
+              focus:outline-none focus:border-amber-900"
             />
             {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
           </div>
 
           <div className="flex flex-col mb-2 font-playfair">
-            <label className="block text-base">Name</label>
+            <label className="block text-base ">Name</label>
             <input
               type="text"
               placeholder="ใจ่ใจ๊"
