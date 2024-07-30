@@ -168,7 +168,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </select>
           </div>
           <button
-            onClick={handleLogin}
+            onTouchStart={handleLogin}
             disabled={isButtonDisabled()}
             className="mt-4 w-full bg-amber-900 text-white py-2 rounded-md hover:bg-amber-700 transition duration-300 font-playfair"
           >
