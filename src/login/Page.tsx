@@ -104,7 +104,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-phone bg-contain ">
+    <div className="flex justify-center items-center h-screen bg-phone bg-contain ">
       { checking ? (
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (

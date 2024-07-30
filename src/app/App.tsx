@@ -50,10 +50,8 @@ const App = () => {
   const handleBack = () => {
     setShowDashboard(false);
   };
-
   return (
     <div>
-      <Dashboard onBack={handleBack} />
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
