@@ -53,6 +53,7 @@ const App = () => {
 
   return (
     <div>
+      <Dashboard onBack={handleBack} />
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
