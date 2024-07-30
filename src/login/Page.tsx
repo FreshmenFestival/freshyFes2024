@@ -54,7 +54,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       );
       setChecking(true);
       const querySnapshot = await getDocs(q);
-      alert(querySnapshot.docs)
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as {
@@ -64,15 +63,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         };
         onLogin(userData, nickName);
       } else {
-        setChecking(false);
-        setError("Noppo! ! ! Try again ;P ");
+        setError("No user found with this ID.");
       }
     } catch (err) {
+      console.error("Error during login:", err);
       if (err instanceof Error) {
         setError("Error checking credentials: " + err.message);
       } else {
         setError("An unknown error occurred.");
       }
+    } finally {
+      setChecking(false);
     }
   };
 
@@ -110,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-phone bg-contain ">
+    <div className="flex justify-center items-center h-screen bg-phone bg-contain">
       {checking ? (
         <img
           className="animate-spin h-18 w-18"
@@ -139,7 +140,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </div>
 
           <div className="flex flex-col mb-2 font-playfair">
-            <label className="block text-base ">Name</label>
+            <label className="block text-base">Name</label>
             <input
               type="text"
               placeholder="ใจ่ใจ๊"
