@@ -78,7 +78,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleIDBlur = () => {
     if (studentId.length !== 10) {
-      setErrorID("รหัสนิสิตไม่ถูกต้อง");
+      setErrorID("incorrect student ID");
       setStudentId("");
     } else {
       setErrorID("");
