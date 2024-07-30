@@ -31,8 +31,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
           score: doc.data().score,
         }));
 
+        console.log("Score data : ",scoresData);
+
         const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
         const groupedScores = allGroups.map(groupId => {
+          console.log("ID : ", groupId);
           const groupScores = scoresData.filter(score => score.group === groupId);
           const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
           return { group: groupId, score: totalScore };
