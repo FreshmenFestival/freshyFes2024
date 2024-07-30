@@ -90,11 +90,11 @@ const ComDashboard = () => {
   const getImageUrl = (groupName: string) => {
     switch(groupName) {
       case "Monorabian": return "/G1.png"; 
-      case "Edenity": return "/G2.PNG"; 
-      case "Tartarus": return "/G3.JPG"; 
+      case "Edenity": return "/G2.png"; 
+      case "Tartarus": return "/G3.jpg"; 
       case "Avalon": return "/G4.jpg"; 
-      case "Lyford": return "/G5.JPG"; 
-      case "Atlansix": return "/G6.PNG"; 
+      case "Lyford": return "/G5.jpg"; 
+      case "Atlansix": return "/G6.png"; 
       case "Staff": return "/logo.png"; 
       default: return ''; 
     }
