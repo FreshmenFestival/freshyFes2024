@@ -3,3 +3,8 @@ export interface UserData {
   group: string;
   name: string;
 }
+
+export interface ScoreData {
+  group: string;
+  score: number;
+}

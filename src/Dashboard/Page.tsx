@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { useCookies } from "react-cookie";
+import { SignJWT, jwtVerify, JWTPayload } from "jose";
+import { ScoreData } from '../utils/constant';
 
 interface DashboardProps {
   onBack: () => void;
 }
 
-interface ScoreData {
-  group: string;
-  score: number;
-}
 
 interface RankedScoreData extends ScoreData {
   rank: number;
   percentage: number;
 }
 
+interface ScoresJWTPayload extends JWTPayload {
+  scoresData: RankedScoreData[];
+}
+
+
 const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [cookies, setCookie] = useCookies(['scoresData']);
+
+  const SECRET_KEY = new TextEncoder().encode(import.meta.env.VITE_SECRET_KEY);
 
   const fetchScores = async () => {
     try {
@@ -32,11 +35,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
         score: doc.data().score,
       }));
 
-      console.log("Score data : ",scoresData);
-
       const allGroups = ["1", "2", "3", "4", "5", "6", "7"];
       const groupedScores = allGroups.map(groupId => {
-        console.log("ID : ", groupId);
         const groupScores = scoresData.filter(score => score.group === groupId);
         const totalScore = groupScores.reduce((acc, score) => acc + score.score, 0);
         return { group: groupId, score: totalScore };
@@ -57,7 +57,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
       }));
 
       setScores(rankedScores);
-      setCookie('scoresData', rankedScores, { path: '/', expires: new Date(Date.now() + 10 * 60  * 1000) });
+
+      const jwtToken = await new SignJWT({ scoresData: rankedScores })
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign(SECRET_KEY);
+      localStorage.setItem('scoresDataToken', jwtToken);
     } catch (err) {
       setError("Error fetching scores");
       console.error("Error fetching scores:", err);
@@ -66,10 +70,18 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
     }
   };
 
-  const initializeScores = () => {
-    if (cookies.scoresData) {
-      setScores(cookies.scoresData);
-      setLoading(false);
+  const initializeScores = async () => {
+    const token = localStorage.getItem('scoresDataToken');
+    if (token) {
+      try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        const scoresDataPayload = payload as ScoresJWTPayload;
+        setScores(scoresDataPayload.scoresData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Invalid JWT token:", err);
+        fetchScores();
+      }
     } else {
       fetchScores();
     }
@@ -77,7 +89,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
 
   useState(() => {
     initializeScores();
-  });
+  }, );
 
   const group = (groupId: string) => {
     switch(groupId) {
