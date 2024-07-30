@@ -141,6 +141,36 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   }
 
+  const evoImg = () => {
+    if(count<20){
+      return "/gift2.png"
+    }else if(count<40){
+      return "/m1.png"
+    }else if(count<60){
+      return "/m2.png"
+    }else if(count<90){
+      return "/m3.png"
+    }else if(count<127){
+      return "/m4.png"
+    }else if(count<200){
+      return "/m5.png"
+    }else if(count<240){
+      return "/m6.png"
+    }else if(count<300){
+      return "/m7.png"
+    }else if(count<320){
+      return "/m8.png"
+    }else if(count<400){
+      return "/m9.png"
+    }else if(count<440){
+      return "/m10.png"
+    }else if(count<500){
+      return "/m11.png"
+    }else{
+      return "/m12.png"
+    }
+  }
+
 
   const handleRequestMotion = async () => {
     const mobile = getMobileOperatingSystem();
