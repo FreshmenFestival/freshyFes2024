@@ -158,6 +158,7 @@ const ComDashboard = () => {
       return (
         <div className="flex justify-center items-center min-h-screen bg-PC bg-contain">
           <img
+          alt="progress_ember"
             className="animate-spin h-18 w-18"
             src="/progress_amber.png"
           ></img>

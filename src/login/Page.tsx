@@ -31,7 +31,10 @@ const getEnumValues = (enumObj: typeof Department) => {
 };
 
 interface LoginProps {
-  onLogin: (data: { uid: string; group: string; name:string; },nickName:string) => void;
+  onLogin: (
+    data: { uid: string; group: string; name: string },
+    nickName: string
+  ) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -48,14 +51,18 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     try {
       const q = query(
         collection(db, "memberlist"),
-        where("uid", "==", studentId)
+        where("uid", "==", '6534435223')
       );
       setChecking(true);
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data() as { uid: string; group: string; name:string; };
-        onLogin(userData,nickName);
+        const userData = userDoc.data() as {
+          uid: string;
+          group: string;
+          name: string;
+        };
+        onLogin(userData, nickName);
       } else {
         setChecking(false);
         if (firstLoad) {
@@ -96,7 +103,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   const isButtonDisabled = () => {
-    return !errorID || !errorNN
+    return !errorID || !errorNN;
   };
 
   useEffect(() => {
@@ -105,7 +112,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-phone bg-contain ">
-      { checking ? (
+      {checking ? (
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
@@ -164,7 +171,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             Accept
           </button>
           {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
-
         </div>
       )}
     </div>
