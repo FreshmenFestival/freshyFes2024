@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -31,7 +31,10 @@ const getEnumValues = (enumObj: typeof Department) => {
 };
 
 interface LoginProps {
-  onLogin: (data: { uid: string; group: string; name:string; },nickName:string) => void;
+  onLogin: (
+    data: { uid: string; group: string; name: string },
+    nickName: string
+  ) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -42,7 +45,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [errorID, setErrorID] = useState("");
   const [errorNN, setErrorNN] = useState("");
   const [checking, setChecking] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
 
   const handleLogin = async () => {
     try {
@@ -54,15 +56,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data() as { uid: string; group: string; name:string; };
-        onLogin(userData,nickName);
+        const userData = userDoc.data() as {
+          uid: string;
+          group: string;
+          name: string;
+        };
+        onLogin(userData, nickName);
       } else {
         setChecking(false);
-        if (firstLoad) {
-          setFirstLoad(false);
-        } else {
-          setError("Noppo! ! ! Try again ;P ");
-        }
+        setError("Noppo! ! ! Try again ;P ");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -96,21 +98,32 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   const isButtonDisabled = () => {
-    return !errorID || !errorNN
+    return (
+      studentId.length !== 10 ||
+      nickName.length === 0 ||
+      department === "" ||
+      checking ||
+      errorID !== "" ||
+      errorNN !== ""
+    );
   };
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen bg-phone bg-contain ">
-      { checking ? (
-        <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
+      {checking ? (
+        <img
+          className="animate-spin h-18 w-18"
+          src="/progress_amber.png"
+          alt="Loading"
+        />
       ) : (
-        <div className="text-amber-900 rounded-2xl  w-80">
-          <h1 className="text-center text-3xl font-alice mb-2"><b>Welcome to</b></h1>
-          <h1 className="text-center text-3xl font-alice mb-2"><b>The Myths of Yggdrasil</b></h1>
+        <div className="text-amber-900 rounded-2xl w-80">
+          <h1 className="text-center text-3xl font-alice mb-2">
+            <b>Welcome to</b>
+          </h1>
+          <h1 className="text-center text-3xl font-alice mb-2">
+            <b>The Myths of Yggdrasil</b>
+          </h1>
           <div className="flex flex-col font-playfair mb-2">
             <label className="mt-4 block text-base">Student ID</label>
             <input
@@ -119,8 +132,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               value={studentId}
               onChange={handleID}
               onBlur={handleIDBlur}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-tranparent
-              focus:outline-none focus:border-amber-900"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             />
             {errorID && <p className="text-red-500 text-sm">{errorID}</p>}
           </div>
@@ -156,14 +168,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </select>
           </div>
           <button
-            onTouchStart={handleLogin}
+            onClick={handleLogin}
             disabled={isButtonDisabled()}
             className="mt-4 w-full bg-amber-900 text-white py-2 rounded-md hover:bg-amber-700 transition duration-300 font-playfair"
           >
             Accept
           </button>
           {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
-
         </div>
       )}
     </div>
