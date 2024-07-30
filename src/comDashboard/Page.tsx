@@ -91,9 +91,9 @@ const ComDashboard = () => {
     switch(groupName) {
       case "Monorabian": return "/G1.png"; 
       case "Edenity": return "/G2.png"; 
-      case "Tartarus": return "/G3.jpg"; 
+      case "Tartarus": return "/G3.png"; 
       case "Avalon": return "/G4.jpg"; 
-      case "Lyford": return "/G5.jpg"; 
+      case "Lyford": return "/G5.png"; 
       case "Atlansix": return "/G6.png"; 
       case "Staff": return "/logo.png"; 
       default: return ''; 
