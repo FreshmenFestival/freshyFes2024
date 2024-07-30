@@ -52,6 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         collection(db, "memberlist"),
         where("uid", "==", studentId)
       );
+      alert(studentId);
       setChecking(true);
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
