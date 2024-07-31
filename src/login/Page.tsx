@@ -43,6 +43,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [checking, setChecking] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
+  
   const handleLogin = async () => {
     try {
       const q = query(
