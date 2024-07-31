@@ -142,32 +142,14 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
   }
 
   const evoImg = () => {
-    if(count<20){
+    if(count<50){
       return "/gift2.png"
-    }else if(count<60){
-      return "/m1.JPG"
-    }else if(count<127){
-      return "/m2.JPG"
-    }else if(count<250){
-      return "/m3.JPG"
-    }else if(count<320){
-      return "/m4.JPG"
-    }else if(count<400){
-      return "/m5.JPG"
-    }else if(count<470){
-      return "/m6.JPG"
-    }else if(count<520){
-      return "/m7.JPG"
-    }else if(count<580){
-      return "/m8.JPG"
-    }else if(count<620){
-      return "/m9.JPG"
-    }else if(count<670){
-      return "/m10.JPG"
+    }else if(count<300){
+      return "/babyTiger.png"
     }else if(count<700){
-      return "/m11.JPG"
+      return "/Tiger2.png"
     }else{
-      return "/m12.JPG"
+      return "/Tiger3.png"
     }
   }
 
@@ -203,23 +185,23 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
-  const nickname = localStorage.getItem("nickname");
+  const nickNamefromlocal = localStorage.getItem("nickname");
 
   return (
     
-    <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
+    <div className="flex flex-col items-center justify-center h-screen bg-phone bg-contain font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{nickname}</b></h3>
+          <h3 className="text-amber-900 font-prompt text-center"><b>{nickNamefromlocal}</b></h3>
           <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
-      
+
       <div className="flex flex-col items-center justify-center gap-2">
 
         <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
-        <p className="text-amber-900">Shake count: {count}</p>
+        <h2 className="text-amber-900"><b>Shake count: {count}</b></h2>
         
         {!permissionRequested && (
           <div className="relative">
