@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  firebase:
+    build: .
+    ports:
+      - "8080:8080"   # Firestore
+      - "9000:9000"   # Realtime Database
+      - "9099:9099"   # Authentication
+      - "4000:4000"   # Emulator UI
+    volumes:
+      - .:/app
+    command: ["firebase", "emulators:start", "--project", "your-project-id"]
