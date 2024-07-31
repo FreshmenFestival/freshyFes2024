@@ -145,29 +145,29 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     if(count<20){
       return "/gift2.png"
     }else if(count<60){
-      return "/m1.png"
+      return "/m1.JPG"
     }else if(count<127){
-      return "/m2.png"
+      return "/m2.JPG"
     }else if(count<250){
-      return "/m3.png"
+      return "/m3.JPG"
     }else if(count<320){
-      return "/m4.png"
+      return "/m4.JPG"
     }else if(count<400){
-      return "/m5.png"
+      return "/m5.JPG"
     }else if(count<470){
-      return "/m6.png"
+      return "/m6.JPG"
     }else if(count<520){
-      return "/m7.png"
+      return "/m7.JPG"
     }else if(count<580){
-      return "/m8.png"
+      return "/m8.JPG"
     }else if(count<620){
-      return "/m9.png"
+      return "/m9.JPG"
     }else if(count<670){
-      return "/m10.png"
+      return "/m10.JPG"
     }else if(count<700){
-      return "/m11.png"
+      return "/m11.JPG"
     }else{
-      return "/m12.png"
+      return "/m12.JPG"
     }
   }
 
