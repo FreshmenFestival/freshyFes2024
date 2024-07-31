@@ -203,21 +203,21 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
+  const nickname = localStorage.getItem("nickName");
 
   return (
     
     <div className="flex flex-col items-center justify-center h-screen bg-phone font-alice">
       <div className="m-4 gap-4 flex justify-end">
         <div className="font-alice sm:col-span-2 min-h-[50px] text-base rounded-lg justify-center align-center float-right">
-          <h3 className="text-amber-900 font-prompt"><b>{evoImg()}</b></h3>
+          <h3 className="text-amber-900 font-prompt"><b>{nickname}</b></h3>
           <h4 className="text-center"><b>{group()}</b> </h4>
         </div>
       </div>
-      <h2>for test</h2>
-
+      
       <div className="flex flex-col items-center justify-center gap-2">
 
-        <img key={Math.random()} src="/babyTiger.png" className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
+        <img key={Math.random()} src={evoImg()} className={`h-[150px] ${isBouncing ? 'animate-bounceonce' : ''}`}/>
 
         <p className="text-amber-900">Shake count: {count}</p>
         
