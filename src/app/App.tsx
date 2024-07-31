@@ -4,11 +4,13 @@ import { createToken, decodeToken } from "../utils/auth";
 import { UserData } from "../utils/constant";
 import Dashboard from "../Dashboard/Page";
 import ShakeComponent from "../components/Shake";
+import PDPA from "../components/pdpa";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [pdpaAccepted, setPdpaAccepted] = useState(false); 
 
   useEffect(() => {
     const checkToken = async () => {
@@ -18,6 +20,7 @@ const App = () => {
           const decoded = await decodeToken(token);
           setUserData(decoded);
           setIsAuthenticated(true);
+          setPdpaAccepted(true);
         } catch (err) {
           console.error("Token verification failed:", err);
           localStorage.removeItem("token");
@@ -28,11 +31,16 @@ const App = () => {
     checkToken();
   }, []);
 
-  const handleLogin = async (data: UserData) => {
-    const token = await createToken(data.uid, data.group, data.name);
+  const handleLogin = async (data: UserData, nickName: string) => {
+    const token = await createToken(data.uid, data.group, data.name, nickName);
     localStorage.setItem("token", token);
     setUserData(data);
     setIsAuthenticated(true);
+    localStorage.setItem("nickname",nickName);
+  };
+
+  const handleAcceptPDPA = () => {
+    setPdpaAccepted(true);
   };
 
   const handleShowDashboard = () => {
@@ -43,7 +51,6 @@ const App = () => {
     setShowDashboard(false);
   };
 
-
   return (
     <div>
       {isAuthenticated && userData ? (
@@ -51,10 +58,13 @@ const App = () => {
           <>
             <Dashboard onBack={handleBack} />
           </>
+        ) : pdpaAccepted ? (
+          <ShakeComponent
+            userData={userData}
+            onShowDashboard={handleShowDashboard}
+          />
         ) : (
-          <>
-            <ShakeComponent userData={userData} onShowDashboard={handleShowDashboard}/>
-          </>
+          <PDPA onAccept={handleAcceptPDPA} /> 
         )
       ) : (
         <Login onLogin={handleLogin} />
@@ -64,6 +74,3 @@ const App = () => {
 };
 
 export default App;
-
-
-

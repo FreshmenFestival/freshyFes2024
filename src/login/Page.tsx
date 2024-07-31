@@ -31,15 +31,16 @@ const getEnumValues = (enumObj: typeof Department) => {
 };
 
 interface LoginProps {
-  onLogin: (data: { uid: string; group: string; name:string; }) => void;
+  onLogin: (data: { uid: string; group: string; name:string; },nickName:string) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [studentId, setStudentId] = useState("");
-  const [name, setName] = useState("");
+  const [nickName, setName] = useState("");
   const [department, setDepartment] = useState<Department | "">("");
   const [error, setError] = useState("");
   const [errorID, setErrorID] = useState("");
+  const [errorNN, setErrorNN] = useState("");
   const [checking, setChecking] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
@@ -54,7 +55,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
-        onLogin(userData);
+        onLogin(userData,nickName);
       } else {
         setChecking(false);
         if (firstLoad) {
@@ -78,11 +79,24 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleIDBlur = () => {
     if (studentId.length !== 10) {
-      setErrorID("รหัสนิสิตไม่ถูกต้อง");
+      setErrorID("incorrect student ID");
       setStudentId("");
     } else {
       setErrorID("");
     }
+  };
+
+  const handleNNBlur = () => {
+    if (nickName.length === 0) {
+      setErrorNN("กลับมากรอกชื่อก่อนสิ");
+      setName("");
+    } else {
+      setErrorNN("");
+    }
+  };
+
+  const isButtonDisabled = () => {
+    return !errorID || !errorNN
   };
 
   useEffect(() => {
@@ -95,10 +109,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
       ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
+          <h1>for test2</h1>
           <h1 className="text-center text-3xl font-alice mb-2"><b>Welcome to</b></h1>
           <h1 className="text-center text-3xl font-alice mb-2"><b>The Myths of Yggdrasil</b></h1>
           <div className="flex flex-col font-playfair mb-2">
-            <label className="mt-4 block text-base">Student ID</label>
+            <label className="mt-4 block text-base font-alice">Student ID</label>
             <input
               type="text"
               placeholder="67xxxxxx23"
@@ -116,10 +131,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <input
               type="text"
               placeholder="ใจ่ใจ๊"
-              value={name}
+              value={nickName}
               onChange={(e) => setName(e.target.value)}
+              onBlur={handleNNBlur}
               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:border-amber-900"
             />
+            {errorNN && <p className="text-red-500 text-sm">{errorNN}</p>}
           </div>
 
           <div className="flex flex-col mb-2 font-playfair">
@@ -139,9 +156,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               ))}
             </select>
           </div>
-
           <button
             onTouchStart={handleLogin}
+            disabled={isButtonDisabled()}
             className="mt-4 w-full bg-amber-900 text-white py-2 rounded-md hover:bg-amber-700 transition duration-300 font-playfair"
           >
             Accept
