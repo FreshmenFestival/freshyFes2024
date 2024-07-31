@@ -203,7 +203,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     }
   };
 
-  const nickname = localStorage.getItem("nickName");
+  const nickname = localStorage.getItem("nickname");
 
   return (
     
