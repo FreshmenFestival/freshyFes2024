@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleLogin = async () => {
     try {
       const q = query(
-        collection(db, "data"),
+        collection(db, "memberlist"),
         where("uid", "==", studentId)
       );
       setChecking(true);

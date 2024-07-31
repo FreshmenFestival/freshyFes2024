@@ -19,7 +19,6 @@ interface ScoresJWTPayload extends JWTPayload {
   scoresData: RankedScoreData[];
 }
 
-
 const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
   const [loading, setLoading] = useState(true);
