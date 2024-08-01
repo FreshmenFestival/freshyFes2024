@@ -6,8 +6,6 @@ import ClosedPage from '../../components/closed';
 
 function Routing() {
 
-  
-
   return (
     <Router>
       <Routes>
