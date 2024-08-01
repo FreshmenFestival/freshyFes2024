@@ -91,9 +91,9 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
     try {
       const querySnapshot = await getDocs(s);
       if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(async (doc) => {
           const newScore = (doc.data().score || 0) + count;
-          updateDoc(doc.ref, { score: newScore });
+          await updateDoc(doc.ref, { score: newScore });
           alert("Update success " + newScore);
         });
       } else {
