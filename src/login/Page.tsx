@@ -46,6 +46,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleLogin = async () => {
     const token = localStorage.getItem('_token');
+    console.log(checking);
     if(token === null) {
       setChecking(false);
       console.log("ggggg")
