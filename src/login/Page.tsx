@@ -45,13 +45,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [firstLoad, setFirstLoad] = useState(true);
 
   const handleLogin = async () => {
+    const token = localStorage.getItem('_token');
+    if(token === null) {
+      setChecking(false);
+      console.log("ggggg")
+    }
     try {
       const q = query(
-        collection(db, "data"),
+        collection(db, "student"),
         where("uid", "==", studentId)
       );
       setChecking(true);
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot)
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data() as { uid: string; group: string; name:string; };
@@ -105,9 +111,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-phone bg-contain ">
-      { checking ? (
-        <img className="animate-spin h-18 w-18" src="/progress_amber.png"></img>
-      ) : (
         <div className="text-amber-900 rounded-2xl  w-80">
           <h1 className="text-center text-3xl font-alice mb-2"><b>Welcome to</b></h1>
           <h1 className="text-center text-3xl font-alice mb-2"><b>The Myths of Yggdrasil</b></h1>
@@ -165,7 +168,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
 
         </div>
-      )}
     </div>
   );
 };

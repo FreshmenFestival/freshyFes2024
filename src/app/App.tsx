@@ -16,7 +16,9 @@ const App = () => {
     const checkToken = async () => {
       localStorage.removeItem("token");
       const token = localStorage.getItem("_token");
-      if (token) {
+      console.log(token)
+      if (token !== null) {
+        console.log("Kuay")
         try {
           const decoded = await decodeToken(token);
           setUserData(decoded);
@@ -28,6 +30,7 @@ const App = () => {
           localStorage.removeItem("_token");
         }
       }
+      setIsAuthenticated(false);
     };
 
     checkToken();
