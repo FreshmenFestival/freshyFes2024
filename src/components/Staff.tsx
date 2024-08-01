@@ -6,7 +6,7 @@ interface StaffProps {
 
 const GiftStaff: React.FC<StaffProps> = ({ onBack }) => {
     return(
-        <div className="bg-phone bg-contain">
+        <div className="flext justify-center items-center bg-phone bg-contain font-prompt">
             <img/>
             <h1>สตาฟทุกคนเก่งมากก</h1>
             <h1>วันนี้วันสุดท้ายแล้ว</h1>
