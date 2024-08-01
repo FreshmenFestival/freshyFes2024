@@ -2,9 +2,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from '../App';
 import ComDashboard from '../../comDashboard/Page';
 import ClosedPage from '../../components/closed';
+import { useEffect } from 'react';
 
 
 function Routing() {
+
+
+
+  const initializeScores = () => {
+    localStorage.removeItem("token")
+  };
+
+  useEffect(() => {
+    initializeScores();
+  }, []); 
 
 
   return (
