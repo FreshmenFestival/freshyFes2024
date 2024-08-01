@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { ScoreData } from '../utils/constant';
@@ -20,7 +20,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
   const [error, setError] = useState<string | null>(null);
   const [cookies, setCookie] = useCookies(['scoresData']);
 
-  
   const fetchScores = async () => {
     try {
       const q = collection(db, "scores");
@@ -52,7 +51,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
       }));
 
       setScores(rankedScores);
-      setCookie('scoresData', rankedScores, { path: '/'  ,expires: new Date(Date.now() + 10 * 60 * 1000) });
+      setCookie('scoresData', rankedScores, { path: '/', expires: new Date(Date.now() + 10 * 60 * 1000) });
     } catch (err) {
       setError("Error fetching scores");
       console.error("Error fetching scores:", err);
@@ -61,34 +60,19 @@ const Dashboard: React.FC<DashboardProps> = ({ onBack }) => {
     }
   };
 
-  const initializeScores = async () => {
-    const token = localStorage.getItem('scoresDataToken');
-    if (token) {
-      try {
-        localStorage.removeItem('scoresDataToken');
-        if (cookies.scoresData) {
-          setScores(cookies.scoresData);
-          setLoading(false);
-        } else {
-          fetchScores();
-        }
-      } catch (err) {
-        console.error("Invalid JWT token:", err);
-        fetchScores();
-      }
+  const initializeScores = () => {
+    if (cookies.scoresData) {
+      setScores(cookies.scoresData);
+      setLoading(false);
     } else {
-      if (cookies.scoresData) {
-        setScores(cookies.scoresData);
-        setLoading(false);
-      } else {
-        fetchScores();
-      }
+      fetchScores();
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     initializeScores();
-  }, );
+  }, []); 
+
 
   const group = (groupId: string) => {
     switch(groupId) {

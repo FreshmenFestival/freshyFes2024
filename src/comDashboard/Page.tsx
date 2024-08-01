@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
+import { useCookies } from "react-cookie";
 import { collection, getDocs } from "firebase/firestore";
 import {
   BarChart,
@@ -25,6 +26,7 @@ const ComDashboard = () => {
   const [scores, setScores] = useState<RankedScoreData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(['scoresData']);
 
   useEffect(() => {
     const fetchScores = async () => {
@@ -69,6 +71,7 @@ const ComDashboard = () => {
         }));
 
         setScores(rankedScores);
+        setCookie('scoresData', rankedScores, { path: '/', expires: new Date(Date.now() + 10 * 60 * 1000) });
       } catch (err) {
         setError("Error fetching scores");
         console.error("Error fetching scores:", err);
@@ -77,8 +80,13 @@ const ComDashboard = () => {
       }
     };
 
-    fetchScores();
-  }, [scores]);
+    if (cookies.scoresData) {
+      setScores(cookies.scoresData);
+      setLoading(false);
+    } else {
+      fetchScores();
+    }
+  }, []);
 
   const getGroupName = (groupId: string) => {
     switch (groupId) {

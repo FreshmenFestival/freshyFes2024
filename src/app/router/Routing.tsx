@@ -35,6 +35,7 @@ function Routing() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/dashboard" element={<ComDashboard />} />
+        <Route path="/dashboardNong" element={<Dashboard onBack={handleBack}/>} />
         <Route path="/testclosed" element={<ClosedPage />} />
         <Route path="/test" element={ userData ? ( <ShakeComponent userData={userData} 
         onShowDashboard={handleShowDashboard} /> ) : ( <div>Loading...</div> )} />
