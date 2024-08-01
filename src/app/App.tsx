@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("_token");
       if (token) {
         try {
           const decoded = await decodeToken(token);
@@ -33,7 +33,8 @@ const App = () => {
 
   const handleLogin = async (data: UserData, nickName: string) => {
     const token = await createToken(data.uid, data.group, data.name, nickName);
-    localStorage.setItem("token", token);
+    localStorage.removeItem("token");
+    localStorage.setItem("_token", token);
     setUserData(data);
     setIsAuthenticated(true);
     localStorage.setItem("nickname",nickName);
