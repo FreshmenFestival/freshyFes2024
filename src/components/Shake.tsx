@@ -94,6 +94,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({ userData, onShowDashboa
         querySnapshot.forEach((doc) => {
           const newScore = (doc.data().score || 0) + count;
           updateDoc(doc.ref, { score: newScore });
+          alert("Update success " + newScore);
         });
       } else {
         await addDoc(collection(db, "scores"), {
