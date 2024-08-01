@@ -55,6 +55,7 @@ const App = () => {
 
   return (
     <div>
+      <Login onLogin={handleLogin} />
       {isAuthenticated && userData ? (
         showDashboard ? (
           <>
