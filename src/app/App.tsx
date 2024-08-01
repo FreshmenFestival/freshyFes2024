@@ -14,6 +14,7 @@ const App = () => {
 
   useEffect(() => {
     const checkToken = async () => {
+      localStorage.removeItem("token");
       const token = localStorage.getItem("_token");
       if (token) {
         try {
