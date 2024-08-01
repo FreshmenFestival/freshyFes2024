@@ -10,7 +10,7 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showDashboard, setShowDashboard] = useState(false);
-  const [pdpaAccepted, setPdpaAccepted] = useState(false); 
+  const [pdpaAccepted, setPdpaAccepted] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -39,7 +39,7 @@ const App = () => {
     localStorage.setItem("_token", token);
     setUserData(data);
     setIsAuthenticated(true);
-    localStorage.setItem("nickname",nickName);
+    localStorage.setItem("nickname", nickName);
   };
 
   const handleAcceptPDPA = () => {
@@ -56,22 +56,21 @@ const App = () => {
 
   return (
     <div>
-      <Login onLogin={handleLogin} />
-      {isAuthenticated && userData ? (
-        showDashboard ? (
-          <>
-            <Dashboard onBack={handleBack} />
-          </>
-        ) : pdpaAccepted ? (
-          <ShakeComponent
-            userData={userData}
-            onShowDashboard={handleShowDashboard}
-          />
-        ) : (
-          <PDPA onAccept={handleAcceptPDPA} /> 
-        )
-      ) : (
+      {!isAuthenticated ? (
         <Login onLogin={handleLogin} />
+      ) : (
+        <>
+          {showDashboard ? (
+            <Dashboard onBack={handleBack} />
+          ) : pdpaAccepted ? (
+            <ShakeComponent
+              userData={userData as UserData}
+              onShowDashboard={handleShowDashboard}
+            />
+          ) : (
+            <PDPA onAccept={handleAcceptPDPA} />
+          )}
+        </>
       )}
     </div>
   );
