@@ -2,15 +2,28 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from '../App';
 import ComDashboard from '../../comDashboard/Page';
 import ClosedPage from '../../components/closed';
-import ShakeComponent from '../../components/Shake';
-import { useEffect, useState } from 'react';
-import { createToken } from '../../utils/auth';
-import { UserData } from '../../utils/constant';
-import Dashboard from '../../Dashboard/Page';
+
 
 function Routing() {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [showDashboard, setShowDashboard] = useState(false);
+
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/dashboard" element={<ComDashboard />} />
+
+        <Route path="/testclosed" element={<ClosedPage />} />
+
+      </Routes>
+      
+    </Router>
+  );
+}
+
+export default Routing;
+
+/*
 
   useEffect(() => {
     const checkToken = async () => {
@@ -22,6 +35,10 @@ function Routing() {
     checkToken();
   }, []);
 
+   const [showDashboard, setShowDashboard] = useState(false);
+
+  
+
   const handleShowDashboard = () => {
     setShowDashboard(true);
   };
@@ -30,19 +47,9 @@ function Routing() {
     setShowDashboard(false);
   };
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/dashboard" element={<ComDashboard />} />
-        <Route path="/dashboardNong" element={<Dashboard onBack={handleBack}/>} />
-        <Route path="/testclosed" element={<ClosedPage />} />
+  const [userData, setUserData] = useState<UserData | null>(null);
         <Route path="/test" element={ userData ? ( <ShakeComponent userData={userData} 
         onShowDashboard={handleShowDashboard} /> ) : ( <div>Loading...</div> )} />
-      </Routes>
-      {showDashboard && <Dashboard onBack={handleBack} />}
-    </Router>
-  );
-}
-
-export default Routing;
+                <Route path="/dashboardNong" element={<Dashboard onBack={handleBack}/>} />
+                {showDashboard && <Dashboard onBack={handleBack} />}
+                */
