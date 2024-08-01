@@ -30,7 +30,6 @@ const App = () => {
           localStorage.removeItem("_token");
         }
       }
-      setIsAuthenticated(false);
     };
 
     checkToken();
@@ -59,7 +58,7 @@ const App = () => {
 
   return (
     <div>
-      {!isAuthenticated ? (
+      {!isAuthenticated  ? (
         <Login onLogin={handleLogin} />
       ) : (
         <>
