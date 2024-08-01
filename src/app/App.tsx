@@ -24,6 +24,7 @@ const App = () => {
         } catch (err) {
           console.error("Token verification failed:", err);
           localStorage.removeItem("token");
+          localStorage.removeItem("_token");
         }
       }
     };
