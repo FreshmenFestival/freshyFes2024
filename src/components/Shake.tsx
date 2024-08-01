@@ -37,11 +37,13 @@ interface UserData {
 interface ShakeComponentProps {
   userData: UserData;
   onShowDashboard: () => void;
+  onShowStaff: () => void;
 }
 
 const ShakeComponent: React.FC<ShakeComponentProps> = ({
   userData,
   onShowDashboard,
+  onShowStaff
 }) => {
   const [count, setCount] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
@@ -101,19 +103,24 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
     );
 
     try {
-      const querySnapshot = await getDocs(s);
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach(async (doc) => {
-          const newScore = (doc.data().score || 0) + count;
-          await updateDoc(doc.ref, { score: newScore });
-        });
+      if (userData.group == "7") {
+        console.log("staff");
+        onShowStaff();
       } else {
-        await addDoc(collection(db, "scores"), {
-          group: userData.group,
-          score: count,
-        });
+        const querySnapshot = await getDocs(s);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (doc) => {
+            const newScore = (doc.data().score || 0) + count;
+            await updateDoc(doc.ref, { score: newScore });
+          });
+        } else {
+          await addDoc(collection(db, "scores"), {
+            group: userData.group,
+            score: count,
+          });
+        }
+        onShowDashboard();
       }
-      onShowDashboard();
     } catch (error) {
       console.error("Error writing document: ", error);
     }
@@ -139,16 +146,29 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
   };
 
   const evoImg = () => {
-    if (count < 50) {
+    if (count < 10000) {
       return "/gift2.png";
-    } else if (count < 300) {
-      return "/babyTiger.png";
-    } else if (count < 700) {
-      return "/Tiger2.png";
-    } else if (count < 10000) {
-      return "/Tiger3.png";
     } else {
-      return "/Oat.png";
+      return secretIMG();
+    }
+  };
+
+  const secretIMG = () => {
+    switch (userData.group) {
+      case "1":
+        return "/Oat.png";
+      case "2":
+        return "/Oat.png";
+      case "3":
+        return "/Oat.png";
+      case "4":
+        return "/Oat.png";
+      case "5":
+        return "/Oat.png";
+      case "6":
+        return "/Oat.png";
+      case "7":
+        return "/Oat.png";
     }
   };
 

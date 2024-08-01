@@ -5,11 +5,13 @@ import { UserData } from "../utils/constant";
 import Dashboard from "../Dashboard/Page";
 import ShakeComponent from "../components/Shake";
 import PDPA from "../components/pdpa";
+import GiftStaff from "../components/staff";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [showStaff, setShowStaff] = useState(false);
   const [pdpaAccepted, setPdpaAccepted] = useState(false);
 
   useEffect(() => {
@@ -52,6 +54,10 @@ const App = () => {
     setShowDashboard(true);
   };
 
+  const handleStaff = () => {
+    setShowStaff(true);
+  };
+
   const handleBack = () => {
     setShowDashboard(false);
   };
@@ -64,10 +70,13 @@ const App = () => {
         <>
           {showDashboard ? (
             <Dashboard onBack={handleBack} />
+          ): showStaff ? (
+            <GiftStaff onBack={handleBack} />
           ) : pdpaAccepted ? (
             <ShakeComponent
               userData={userData as UserData}
               onShowDashboard={handleShowDashboard}
+              onShowStaff={handleStaff}
             />
           ) : (
             <PDPA onAccept={handleAcceptPDPA} />
