@@ -170,7 +170,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
       case "3":
         return "/secret/group3.jpg";
       case "4":
-        return "/secret/Oat.png";
+        return "/secret/group4.jpg";
       case "5":
         return "/secret/group5.jpg";
       case "6":
