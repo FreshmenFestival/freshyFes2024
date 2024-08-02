@@ -164,17 +164,17 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
   const secretIMG = () => {
     switch (userData.group) {
       case "1":
-        return "/secret/Oat.png";
+        return "/secret/group1.jpg";
       case "2":
         return "/secret/Oat.png";
       case "3":
-        return "/secret/Oat.png";
+        return "/secret/group3.jpg";
       case "4":
         return "/secret/Oat.png";
       case "5":
-        return "/secret/Oat.png";
+        return "/secret/group5.jpg";
       case "6":
-        return "/secret/Oat.png";
+        return "/secret/group6.jpg";
       case "7":
         return "/secret/Oat.png";
     }
