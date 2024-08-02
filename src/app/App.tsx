@@ -5,7 +5,7 @@ import { UserData } from "../utils/constant";
 import Dashboard from "../Dashboard/Page";
 import ShakeComponent from "../components/Shake";
 import PDPA from "../components/pdpa";
-import GiftStaff from "../components/staff";
+import GiftStaff from "../components/Staff";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
