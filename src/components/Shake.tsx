@@ -146,7 +146,7 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
   };
 
   const evoImg = () => {
-    if (count < 10000) {
+    if (count < 100) {
       return "/gift2.png";
     } else {
       return secretIMG();
