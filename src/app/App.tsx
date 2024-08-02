@@ -62,6 +62,10 @@ const App = () => {
     setShowDashboard(false);
   };
 
+  const handleBackStaff = () => {
+    setShowStaff(false);
+  }
+
   return (
     <div>
       {!isAuthenticated  ? (
@@ -71,7 +75,7 @@ const App = () => {
           {showDashboard ? (
             <Dashboard onBack={handleBack} />
           ): showStaff ? (
-            <GiftStaff onBack={handleBack} />
+            <GiftStaff onBack={handleBackStaff} />
           ) : pdpaAccepted ? (
             <ShakeComponent
               userData={userData as UserData}
