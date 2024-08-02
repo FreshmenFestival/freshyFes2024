@@ -99,8 +99,10 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
 
     const s = query(
       collection(db, "scores"),
-      where("group", "==", userData.group)
+      where("group", "==", userData.group),
+      where("group", "!=", "7")
     );
+    
 
     try {
       if (userData.group == "7") {
@@ -148,6 +150,12 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
   const evoImg = () => {
     if (count < 100) {
       return "/gift2.png";
+    } else if (count < 300) {
+      return "/babyTiger.png";
+    } else if (count < 500) {
+      return "Tiger2.png";
+    } else if (count < 10000) {
+      return "Tiger3.png";
     } else {
       return secretIMG();
     }
@@ -156,19 +164,19 @@ const ShakeComponent: React.FC<ShakeComponentProps> = ({
   const secretIMG = () => {
     switch (userData.group) {
       case "1":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "2":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "3":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "4":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "5":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "6":
-        return "/Oat.png";
+        return "/secret/Oat.png";
       case "7":
-        return "/Oat.png";
+        return "/secret/Oat.png";
     }
   };
 
