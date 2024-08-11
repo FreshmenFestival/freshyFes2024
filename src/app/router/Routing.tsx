@@ -9,8 +9,6 @@ function Routing() {
       <Routes>
         <Route path="/" element={<App/>}  />
         <Route path="/dashboard" element={<ComDashboard />} />
-        <Route path="/testclosed" element={<ClosedPage />} />
-
       </Routes>
       
     </Router>
